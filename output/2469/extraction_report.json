@@ -1,0 +1,1011 @@
+{
+  "document_path": "/Users/miteshsingh/Documents/projects/Carbon-Offset Project Verification via Remote Sensing/data/projects/2469",
+  "fields": {
+    "project_id": {
+      "value": "2469",
+      "raw_value": "2469",
+      "page": 1,
+      "evidence_quote": "Project ID 2469",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "monitoring_report.pdf",
+      "score": 25.0,
+      "winner_reason": "highest score (25.0) from monitoring_report.pdf"
+    },
+    "registry": {
+      "value": "verra",
+      "raw_value": "Monitoring Report: VCS Version 4.2",
+      "page": 3,
+      "evidence_quote": "Monitoring Report: VCS Version 4.2",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "monitoring_report.pdf",
+      "score": 36.0,
+      "winner_reason": "highest score (36.0) from monitoring_report.pdf"
+    },
+    "methodology": {
+      "value": "AR-ACM0003",
+      "raw_value": "AR-ACM0003",
+      "page": 9,
+      "evidence_quote": "instances will accomplish the applicability conditions of the methodology AR-ACM0003 Version",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "pdd.pdf",
+      "score": 27.0,
+      "winner_reason": "pdd prioritized for methodology over monitoring_report.pdf (score=27.0)"
+    },
+    "claimed_area_ha": {
+      "value": 1300.0,
+      "raw_value": "1,300 ha",
+      "page": 3,
+      "evidence_quote": "validated in 2023 the management of 1,300 ha of Eucalyptus plantations in the department of",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "monitoring_report.pdf",
+      "score": 31.0,
+      "winner_reason": "monitoring_report prioritized for claimed_area_ha over pdd.pdf (score=31.0)"
+    },
+    "estate_area_ha": {
+      "value": 2309.0,
+      "raw_value": "2,309 ha",
+      "page": 5,
+      "evidence_quote": "after referred to as Estancia or Finca) with an area of 2,309 ha (Estancia Rodeo Guazu). It is located i",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "monitoring_report.pdf",
+      "score": 30.0,
+      "winner_reason": "highest score (30.0) from monitoring_report.pdf"
+    },
+    "reporting_period_start": {
+      "value": "2021-01-01",
+      "raw_value": "01-January-2021",
+      "page": 1,
+      "evidence_quote": "Monitoring Period 01-January-2021 – 30-September-2022",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "monitoring_report.pdf",
+      "score": 35.0,
+      "winner_reason": "monitoring_report prioritized for reporting_period_start over pdd.pdf (score=35.0)"
+    },
+    "reporting_period_end": {
+      "value": "2022-09-30",
+      "raw_value": "30-September-2022",
+      "page": 1,
+      "evidence_quote": "Monitoring Period 01-January-2021 – 30-September-2022",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "monitoring_report.pdf",
+      "score": 35.0,
+      "winner_reason": "monitoring_report prioritized for reporting_period_end over pdd.pdf (score=35.0)"
+    },
+    "crediting_period_start": {
+      "value": "2018-06-01",
+      "raw_value": "01-06-2018",
+      "page": 5,
+      "evidence_quote": "Project Crediting Period Project start date: 01-06-2018 Project end date: 31-05-2038",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "monitoring_report.pdf",
+      "score": 30.0,
+      "winner_reason": "highest score (30.0) from monitoring_report.pdf"
+    },
+    "crediting_period_end": {
+      "value": "2038-05-31",
+      "raw_value": "31-05-2038",
+      "page": 5,
+      "evidence_quote": "Project Crediting Period Project start date: 01-06-2018 Project end date: 31-05-2038",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "monitoring_report.pdf",
+      "score": 30.0,
+      "winner_reason": "highest score (30.0) from monitoring_report.pdf"
+    },
+    "project_start_date": {
+      "value": "2018-06-01",
+      "raw_value": "01-06-2018",
+      "page": 5,
+      "evidence_quote": "Starting date of the ARR project activity: 01-06-2018.",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "monitoring_report.pdf",
+      "score": 30.0,
+      "winner_reason": "highest score (30.0) from monitoring_report.pdf"
+    },
+    "credits_issued": {
+      "value": 68493,
+      "raw_value": "68,493",
+      "page": 3,
+      "evidence_quote": "9,340 tCO2e. The number of GHG credits eligible to be issued as VCUs for the first project instances of this monitoring period is 68,493 tCO2e. Audit Type Period Program VVB Na",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "monitoring_report.pdf",
+      "score": 36.0,
+      "winner_reason": "monitoring_report prioritized for credits_issued (score=36.0)"
+    },
+    "net_ghg_removals_tco2e": {
+      "value": 77834,
+      "raw_value": "77,834",
+      "page": 3,
+      "evidence_quote": "lowing the description in the PDD. The GHG emission reduction generated from the plantations until 30-09-2022 for this monitoring report are 77,834 tCO2e. The non-permanence risk rating is 12%",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "monitoring_report.pdf",
+      "score": 31.0,
+      "winner_reason": "monitoring_report prioritized for net_ghg_removals_tco2e (score=31.0)"
+    },
+    "buffer_credits_tco2e": {
+      "value": 9340,
+      "raw_value": "9,340",
+      "page": 3,
+      "evidence_quote": "buffer credits that need to be deposited into the AFOLU pooled buffer account is 9,340 tCO2e.",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "monitoring_report.pdf",
+      "score": 31.0,
+      "winner_reason": "monitoring_report prioritized for buffer_credits_tco2e (score=31.0)"
+    },
+    "claimed_canopy_change_pct": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": "No valid candidate found matching rule-based patterns",
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "canopy_cover_pct": {
+      "value": 25.0,
+      "raw_value": "25%",
+      "page": 69,
+      "evidence_quote": "forest definition of Paraguay, whi ch is defined as 25% tree coverage, 0.5 ha and 5m of minimum tree height",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "pdd.pdf",
+      "score": 30.0,
+      "winner_reason": "pdd prioritized for canopy_cover_pct (score=30.0)"
+    },
+    "min_area_ha": {
+      "value": 0.5,
+      "raw_value": "0.5 ha",
+      "page": 69,
+      "evidence_quote": "forest definition of Paraguay, whi ch is defined as 25% tree coverage, 0.5 ha and 5m of minimum tree height",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "pdd.pdf",
+      "score": 30.0,
+      "winner_reason": "pdd prioritized for min_area_ha (score=30.0)"
+    },
+    "min_height_m": {
+      "value": 5.0,
+      "raw_value": "5 m",
+      "page": 69,
+      "evidence_quote": "forest definition of Paraguay, whi ch is defined as 25% tree coverage, 0.5 ha and 5m of minimum tree height",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "pdd.pdf",
+      "score": 30.0,
+      "winner_reason": "pdd prioritized for min_height_m (score=30.0)"
+    },
+    "natural_forest_ha": {
+      "value": 541.0,
+      "raw_value": "541 ha",
+      "page": 19,
+      "evidence_quote": "The remaining natural forests with a total area of 541 ha consist of three forest types.",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "pdd.pdf",
+      "score": 30.0,
+      "winner_reason": "pdd prioritized for natural_forest_ha (score=30.0)"
+    }
+  },
+  "extractor": "rule_based",
+  "pdf_sha256": "46d43884d90b48b66d7f5ccf363bc78e03e33ff9e0932883612cbd1c1a83bb54",
+  "demo": false,
+  "documents_scanned": [
+    "monitoring_report.pdf",
+    "pdd.pdf"
+  ],
+  "document_stats": {
+    "monitoring_report.pdf": {
+      "page_count": 54,
+      "total_chars": 82944,
+      "avg_chars_per_page": 1536.0,
+      "ocr_needed": false,
+      "status": "processed",
+      "sha256": "46d43884d90b48b66d7f5ccf363bc78e03e33ff9e0932883612cbd1c1a83bb54"
+    },
+    "pdd.pdf": {
+      "page_count": 115,
+      "total_chars": 191931,
+      "avg_chars_per_page": 1669.0,
+      "ocr_needed": false,
+      "status": "processed",
+      "sha256": "7d1149d920ee0a9a8a667200505642314be3f52a259dba5d1a7a1873905be567"
+    }
+  },
+  "credits_consistency_check": {
+    "is_consistent": true,
+    "net_ghg_removals_tco2e": 77834,
+    "buffer_credits_tco2e": 9340,
+    "credits_issued": 68493,
+    "calculated_net_minus_buffer": 68494,
+    "discrepancy_tco2e": 1,
+    "status": "CONSISTENT"
+  },
+  "planting_schedule": [
+    {
+      "stratum": "2018_714",
+      "planting_year": 2018,
+      "density": 714,
+      "area_ha": 159.0,
+      "source_doc": "monitoring_report.pdf",
+      "page": 44,
+      "evidence_quote": "2018_714 159 161 -2"
+    },
+    {
+      "stratum": "2018_1000",
+      "planting_year": 2018,
+      "density": 1000,
+      "area_ha": 186.0,
+      "source_doc": "monitoring_report.pdf",
+      "page": 44,
+      "evidence_quote": "2018_1000 186 185 2"
+    },
+    {
+      "stratum": "2019_500",
+      "planting_year": 2019,
+      "density": 500,
+      "area_ha": 41.0,
+      "source_doc": "monitoring_report.pdf",
+      "page": 44,
+      "evidence_quote": "2019_500 41 41 0"
+    },
+    {
+      "stratum": "2019_714",
+      "planting_year": 2019,
+      "density": 714,
+      "area_ha": 252.0,
+      "source_doc": "monitoring_report.pdf",
+      "page": 44,
+      "evidence_quote": "2019_714 252 252 0"
+    },
+    {
+      "stratum": "2019_1000",
+      "planting_year": 2019,
+      "density": 1000,
+      "area_ha": 353.0,
+      "source_doc": "monitoring_report.pdf",
+      "page": 44,
+      "evidence_quote": "2019_1000 353 354 -1"
+    },
+    {
+      "stratum": "2020_476",
+      "planting_year": 2020,
+      "density": 476,
+      "area_ha": 104.0,
+      "source_doc": "monitoring_report.pdf",
+      "page": 44,
+      "evidence_quote": "2020_476 104 104"
+    },
+    {
+      "stratum": "2020_500",
+      "planting_year": 2020,
+      "density": 500,
+      "area_ha": 10.0,
+      "source_doc": "monitoring_report.pdf",
+      "page": 44,
+      "evidence_quote": "2020_500 10 10"
+    },
+    {
+      "stratum": "2020_800",
+      "planting_year": 2020,
+      "density": 800,
+      "area_ha": 108.0,
+      "source_doc": "monitoring_report.pdf",
+      "page": 44,
+      "evidence_quote": "2020_800 108 108"
+    },
+    {
+      "stratum": "2020_1000",
+      "planting_year": 2020,
+      "density": 1000,
+      "area_ha": 88.0,
+      "source_doc": "monitoring_report.pdf",
+      "page": 44,
+      "evidence_quote": "2020_1000 88 88"
+    }
+  ],
+  "planted_area_by_year": {
+    "2018": 345.0,
+    "2019": 646.0,
+    "2020": 310.0
+  },
+  "planted_area_total_ha": 1301.0,
+  "stated_total_ha": 1300.0,
+  "check": {
+    "is_consistent": true,
+    "sum_area_ha": 1301.0,
+    "stated_total_ha": 1300.0,
+    "discrepancy_ha": 1.0,
+    "status": "CONSISTENT"
+  },
+  "source_notes": [
+    "Credits issued: p.3 text reports 68,493 tCO2e eligible to be issued as VCUs, while p.54 carbon calculation table lists 68,494 tCO2e (1 tCO2e source inconsistency)."
+  ],
+  "debug": {
+    "top_candidates": {
+      "project_id": [
+        {
+          "score": 25.0,
+          "doc": "monitoring_report.pdf",
+          "page": 1,
+          "quote": "Project ID 2469",
+          "raw_value": "2469",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "registry": [
+        {
+          "score": 36.0,
+          "doc": "monitoring_report.pdf",
+          "page": 3,
+          "quote": "Monitoring Report: VCS Version 4.2",
+          "raw_value": "Monitoring Report: VCS Version 4.2",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 36.0,
+          "doc": "monitoring_report.pdf",
+          "page": 23,
+          "quote": "Monitoring Report: VCS Version 4.2",
+          "raw_value": "Monitoring Report: VCS Version 4.2",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 36.0,
+          "doc": "monitoring_report.pdf",
+          "page": 43,
+          "quote": "Monitoring Report: VCS Version 4.2",
+          "raw_value": "Monitoring Report: VCS Version 4.2",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "methodology": [
+        {
+          "score": 27.0,
+          "doc": "monitoring_report.pdf",
+          "page": 43,
+          "quote": "methodology AR-ACM0003. “Afforestation and reforestation of lands except",
+          "raw_value": "AR-ACM0003",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 27.0,
+          "doc": "pdd.pdf",
+          "page": 9,
+          "quote": "instances will accomplish the applicability conditions of the methodology AR-ACM0003 Version",
+          "raw_value": "AR-ACM0003",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 26.0,
+          "doc": "monitoring_report.pdf",
+          "page": 7,
+          "quote": "Approved CDM methodology: AR-ACM0003 “AR Large scale – Afforestation and reforestation of",
+          "raw_value": "AR-ACM0003",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "claimed_area_ha": [
+        {
+          "score": 31.0,
+          "doc": "monitoring_report.pdf",
+          "page": 3,
+          "quote": "validated in 2023 the management of 1,300 ha of Eucalyptus plantations in the department of",
+          "raw_value": "1,300 ha",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 31.0,
+          "doc": "monitoring_report.pdf",
+          "page": 3,
+          "quote": "e of the total net production area. The current project area is 1,300 ha. 7 ha were lost due map adjustment. Al",
+          "raw_value": "1,300 ha",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 30.0,
+          "doc": "pdd.pdf",
+          "page": 19,
+          "quote": "The remaining natural forests with a total area of 541 ha consist of three forest types.",
+          "raw_value": "541 ha",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "estate_area_ha": [
+        {
+          "score": 30.0,
+          "doc": "monitoring_report.pdf",
+          "page": 5,
+          "quote": "after referred to as Estancia or Finca) with an area of 2,309 ha (Estancia Rodeo Guazu). It is located i",
+          "raw_value": "2,309 ha",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 30.0,
+          "doc": "pdd.pdf",
+          "page": 28,
+          "quote": "after referred to as Estancia or Finca) with an area of 2,309 ha (Estancia Rodeo Guazu). It is located i",
+          "raw_value": "2,309 ha",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 28.0,
+          "doc": "monitoring_report.pdf",
+          "page": 5,
+          "quote": "ject Location Forestal Azul is a large landholding (hereinafter referred to as Estancia or Finca) with an area of 2,309 ha (Estancia Rodeo Guazu). It is located i",
+          "raw_value": "2,309 ha",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "reporting_period_start": [
+        {
+          "score": 35.0,
+          "doc": "monitoring_report.pdf",
+          "page": 1,
+          "quote": "Monitoring Period 01-January-2021 – 30-September-2022",
+          "raw_value": "01-January-2021",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 35.0,
+          "doc": "monitoring_report.pdf",
+          "page": 3,
+          "quote": "monitoring period is 68,493 tCO2e. Audit Type Period Program VVB Name Number of years Validation/Ver ification 01-06-2018- 31-12-2020",
+          "raw_value": "01-06-2018",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 35.0,
+          "doc": "monitoring_report.pdf",
+          "page": 54,
+          "quote": "monitoring period 01-January-2021 to 30-September-2022",
+          "raw_value": "01-January-2021",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "reporting_period_end": [
+        {
+          "score": 35.0,
+          "doc": "monitoring_report.pdf",
+          "page": 1,
+          "quote": "Monitoring Period 01-January-2021 – 30-September-2022",
+          "raw_value": "30-September-2022",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 35.0,
+          "doc": "monitoring_report.pdf",
+          "page": 3,
+          "quote": "monitoring period is 68,493 tCO2e. Audit Type Period Program VVB Name Number of years Validation/Ver ification 01-06-2018- 31-12-2020",
+          "raw_value": "31-12-2020",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 35.0,
+          "doc": "monitoring_report.pdf",
+          "page": 54,
+          "quote": "monitoring period 01-January-2021 to 30-September-2022",
+          "raw_value": "30-September-2022",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "crediting_period_start": [
+        {
+          "score": 30.0,
+          "doc": "monitoring_report.pdf",
+          "page": 5,
+          "quote": "Project Crediting Period Project start date: 01-06-2018 Project end date: 31-05-2038",
+          "raw_value": "01-06-2018",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 30.0,
+          "doc": "pdd.pdf",
+          "page": 12,
+          "quote": "Project Crediting Period Project start date 01.06.2018 Project end date 31.05.2038",
+          "raw_value": "01.06.2018",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "crediting_period_end": [
+        {
+          "score": 30.0,
+          "doc": "monitoring_report.pdf",
+          "page": 5,
+          "quote": "Project Crediting Period Project start date: 01-06-2018 Project end date: 31-05-2038",
+          "raw_value": "31-05-2038",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 30.0,
+          "doc": "pdd.pdf",
+          "page": 12,
+          "quote": "Project Crediting Period Project start date 01.06.2018 Project end date 31.05.2038",
+          "raw_value": "31.05.2038",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "project_start_date": [
+        {
+          "score": 30.0,
+          "doc": "monitoring_report.pdf",
+          "page": 5,
+          "quote": "Starting date of the ARR project activity: 01-06-2018.",
+          "raw_value": "01-06-2018",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 30.0,
+          "doc": "monitoring_report.pdf",
+          "page": 5,
+          "quote": "6-2018. 1.6 Project Crediting Period Project start date: 01-06-2018 Project end date: 31-05-2038 To",
+          "raw_value": "01-06-2018",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 30.0,
+          "doc": "pdd.pdf",
+          "page": 12,
+          "quote": "Starting date of the proposed ARR project activity: 01-06-2018",
+          "raw_value": "01-06-2018",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "credits_issued": [
+        {
+          "score": 36.0,
+          "doc": "monitoring_report.pdf",
+          "page": 3,
+          "quote": "9,340 tCO2e. The number of GHG credits eligible to be issued as VCUs for the first project instances of this monitoring period is 68,493 tCO2e. Audit Type Period Program VVB Na",
+          "raw_value": "68,493",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 35.0,
+          "doc": "monitoring_report.pdf",
+          "page": 54,
+          "quote": "9,340 tCO2e. The number of GHG credits eligible to be issued as VCUs for the first project instances of this monitoring period is 68,494 tCO2e. Cumulative emission reductions claime",
+          "raw_value": "68,494",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "net_ghg_removals_tco2e": [
+        {
+          "score": 31.0,
+          "doc": "monitoring_report.pdf",
+          "page": 3,
+          "quote": "lowing the description in the PDD. The GHG emission reduction generated from the plantations until 30-09-2022 for this monitoring report are 77,834 tCO2e. The non-permanence risk rating is 12%",
+          "raw_value": "77,834",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 30.0,
+          "doc": "monitoring_report.pdf",
+          "page": 54,
+          "quote": "77.834 9.340 68.494 The total GHG emission reductions for the 2nd monitoring period 01-January-2021 to 30-September-2022 are 77,834 tCO2e. The non-permanence risk rating is 12%",
+          "raw_value": "77,834",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "buffer_credits_tco2e": [
+        {
+          "score": 31.0,
+          "doc": "monitoring_report.pdf",
+          "page": 3,
+          "quote": "buffer credits that need to be deposited into the AFOLU pooled buffer account is 9,340 tCO2e.",
+          "raw_value": "9,340",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 30.0,
+          "doc": "monitoring_report.pdf",
+          "page": 54,
+          "quote": "ocument). Therefore the total number of buffer credits that need to be deposited into the AFOLU pooled buffer account is 9,340 tCO2e. The number of GHG credits eligible to",
+          "raw_value": "9,340",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "claimed_canopy_change_pct": [],
+      "canopy_cover_pct": [
+        {
+          "score": 30.0,
+          "doc": "pdd.pdf",
+          "page": 69,
+          "quote": "forest definition of Paraguay, whi ch is defined as 25% tree coverage, 0.5 ha and 5m of minimum tree height",
+          "raw_value": "25%",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "min_area_ha": [
+        {
+          "score": 30.0,
+          "doc": "pdd.pdf",
+          "page": 69,
+          "quote": "forest definition of Paraguay, whi ch is defined as 25% tree coverage, 0.5 ha and 5m of minimum tree height",
+          "raw_value": "0.5 ha",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "min_height_m": [
+        {
+          "score": 30.0,
+          "doc": "pdd.pdf",
+          "page": 69,
+          "quote": "forest definition of Paraguay, whi ch is defined as 25% tree coverage, 0.5 ha and 5m of minimum tree height",
+          "raw_value": "5 m",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "natural_forest_ha": [
+        {
+          "score": 30.0,
+          "doc": "pdd.pdf",
+          "page": 19,
+          "quote": "The remaining natural forests with a total area of 541 ha consist of three forest types.",
+          "raw_value": "541 ha",
+          "status": "valid",
+          "rejection_reason": null
+        },
+        {
+          "score": 25.0,
+          "doc": "pdd.pdf",
+          "page": 19,
+          "quote": "The remaining natural forests with a total area of 541 ha consist of three forest types.",
+          "raw_value": "541 ha",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ]
+    },
+    "keyword_pages": [
+      {
+        "keyword": "crediting period",
+        "doc": "monitoring_report.pdf",
+        "page": 2,
+        "snippet": "............. 5 1.6 Project Crediting Period ................................................."
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 3,
+        "snippet": "d limits influence mostly the area of compartments within a given management unit b"
+      },
+      {
+        "keyword": "planted",
+        "doc": "monitoring_report.pdf",
+        "page": 3,
+        "snippet": "eam re-assessed the limits of planted areas using very high-resolution imagery. The re"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 5,
+        "snippet": "as Estancia or Finca) with an area of 2,309 ha (Estancia Rodeo Guazu). It is locate"
+      },
+      {
+        "keyword": "crediting period",
+        "doc": "monitoring_report.pdf",
+        "page": 5,
+        "snippet": "ty: 01-06-2018. 1.6 Project Crediting Period Project start date: 01-06-2018 Project en"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 6,
+        "snippet": "asses a target net production area of around 1,805 ha, already including first inst"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 10,
+        "snippet": "time 2) 15.1 15.1.1 Forest area as a proportion of total land area The project"
+      },
+      {
+        "keyword": "planted",
+        "doc": "monitoring_report.pdf",
+        "page": 10,
+        "snippet": "145 ha of pasture land were planted and 1,350 ha of existing plantations managed an"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 12,
+        "snippet": "the region is natural forest area, highly fragmented and degraded, meaning the pla"
+      },
+      {
+        "keyword": "planted",
+        "doc": "monitoring_report.pdf",
+        "page": 12,
+        "snippet": ", etc.). ▪ Eucalypts are not planted in areas important for water recharge (in lowlan"
+      },
+      {
+        "keyword": "planted",
+        "doc": "monitoring_report.pdf",
+        "page": 13,
+        "snippet": "▪ Genetic eucalypt material planted mostly encompasses clones (not seeds), with limi"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 14,
+        "snippet": "control of activities in the area. ▪ Hunting, fishing and uncontrolled logging of"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 17,
+        "snippet": "ders to work on the expansion area. An additional Community Liaison Officer was int"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 18,
+        "snippet": "racted personnel The project area is surrounded by large private landholdings and c"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 20,
+        "snippet": "Communities of the expansion area listed above."
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 22,
+        "snippet": "located next to the project area is the rightful owner of its land. The due dilige"
+      },
+      {
+        "keyword": "planted",
+        "doc": "monitoring_report.pdf",
+        "page": 22,
+        "snippet": "am re-assessed the limits of planted areas using very high-resolution imagery. The rev"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 23,
+        "snippet": "t Description Deviations The area validated suffered minor changes during this proc"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 30,
+        "snippet": "Data unit Ha Description Area of tree biomass stratum i Source of data GIS or"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 31,
+        "snippet": "ption Relative weight of the area of stratum I, the area of the stratum i divided"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 33,
+        "snippet": "It is calculated based on the area needed to include 20 trees in the Permanent Samp"
+      },
+      {
+        "keyword": "planted",
+        "doc": "monitoring_report.pdf",
+        "page": 34,
+        "snippet": "Description Height of tree planted Source of data Field measurements in sample plo"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 36,
+        "snippet": "on of project boundaries The area of the project has been delimited using satellite"
+      },
+      {
+        "keyword": "planted",
+        "doc": "monitoring_report.pdf",
+        "page": 36,
+        "snippet": "ventories, the development of planted trees is evaluated, including aspects such as fo"
+      },
+      {
+        "keyword": "planted",
+        "doc": "monitoring_report.pdf",
+        "page": 37,
+        "snippet": "rule, the PSPs consist of 20 planted trees (regardless of whether they survived or no"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 39,
+        "snippet": "ing size of 0.2 % in terms of area. However, to date, the real average is 1 PSP eve"
+      },
+      {
+        "keyword": "planted",
+        "doc": "monitoring_report.pdf",
+        "page": 39,
+        "snippet": "corresponding to 0.3% of the planted area."
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 40,
+        "snippet": "he plot and interpolation to area occupied by the trees measured. These values are"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 41,
+        "snippet": "d per hectare and require the area of the plot for interpolation. The area of the p"
+      },
+      {
+        "keyword": "hectare",
+        "doc": "monitoring_report.pdf",
+        "page": 41,
+        "snippet": "ese values are calculated per hectare and require the area of the plot for interpolati"
+      },
+      {
+        "keyword": "crediting period",
+        "doc": "monitoring_report.pdf",
+        "page": 43,
+        "snippet": "ollowing the end of the last crediting period. 5 QUANTIFICATION OF GHG EMISSION REDUCTIONS AN"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 44,
+        "snippet": "ear_Density) Total project area (ha) Areas part of 1st verification New areas"
+      },
+      {
+        "keyword": "planted",
+        "doc": "monitoring_report.pdf",
+        "page": 44,
+        "snippet": "aseline analysis of the areas planted in 2020. Table 5. Distribution of areas in the p"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 47,
+        "snippet": "t; t d.m. ha-1 A = Project area; ha wi = Ratio of the area of stratum i to the"
+      },
+      {
+        "keyword": "hectare",
+        "doc": "monitoring_report.pdf",
+        "page": 47,
+        "snippet": "E, t = Mean tree biomass per hectare within the project boundary at a given point in"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 48,
+        "snippet": "ion BTREE and CTREE Stratum Area (ha) wi bTREE,t t d.m. ha- 1 BTREE,t t d.m."
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 51,
+        "snippet": "period, for each new planting area included in a certain year, only eight months ar"
+      },
+      {
+        "keyword": "area",
+        "doc": "monitoring_report.pdf",
+        "page": 52,
+        "snippet": ". Stratum (year_densi ty) Area strata 52nclud ing in year t (ha) CTREE,t1 ="
+      },
+      {
+        "keyword": "crediting period",
+        "doc": "pdd.pdf",
+        "page": 2,
+        "snippet": "............ 12 1.9 Project Crediting Period ................................................."
+      },
+      {
+        "keyword": "crediting period",
+        "doc": "pdd.pdf",
+        "page": 6,
+        "snippet": "vals of 284,957 t CO2 over a crediting period of 20 years or 14,248 tCO2 annually. Based on the"
+      },
+      {
+        "keyword": "area",
+        "doc": "pdd.pdf",
+        "page": 7,
+        "snippet": "e VCS Program1. The project area consisted of agricultural fields, mostly mechaniz"
+      },
+      {
+        "keyword": "area",
+        "doc": "pdd.pdf",
+        "page": 8,
+        "snippet": "Forestal Azul Carbon Project area in December 2018, Google Earth No Drainage The"
+      },
+      {
+        "keyword": "area",
+        "doc": "pdd.pdf",
+        "page": 9,
+        "snippet": "have been excluded from the area part of the first instance. In order to completel"
+      },
+      {
+        "keyword": "area",
+        "doc": "pdd.pdf",
+        "page": 10,
+        "snippet": "oject activity and geographic area. 4) Show the same characteristics with respect t"
+      },
+      {
+        "keyword": "crediting period",
+        "doc": "pdd.pdf",
+        "page": 12,
+        "snippet": "n August 2018. 1.9 Project Crediting Period Project start date 01.06.2018 Projec"
+      },
+      {
+        "keyword": "area",
+        "doc": "pdd.pdf",
+        "page": 14,
+        "snippet": "ject Activity From the total area, the first instance of the Carbon Project include"
+      },
+      {
+        "keyword": "area",
+        "doc": "pdd.pdf",
+        "page": 15,
+        "snippet": "is limiting the share of the area planted with one clone to 20 % of the total plan"
+      },
+      {
+        "keyword": "hectare",
+        "doc": "pdd.pdf",
+        "page": 15,
+        "snippet": "a growth of 30 to 40 m 3 per hectare per year. The species is suitable for the product"
+      },
+      {
+        "keyword": "planted",
+        "doc": "pdd.pdf",
+        "page": 15,
+        "snippet": "grandis and its hybrids are planted. This species is very productive, since it has a"
+      },
+      {
+        "keyword": "planted",
+        "doc": "pdd.pdf",
+        "page": 16,
+        "snippet": "t, grown as an ornamental, or planted as a pioneer species in reforestation projects,"
+      }
+    ]
+  }
+}

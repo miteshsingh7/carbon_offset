@@ -1,0 +1,225 @@
+{
+  "document_path": "/Users/miteshsingh/Documents/projects/Carbon-Offset Project Verification via Remote Sensing/data/projects/demo/claims.json",
+  "fields": {
+    "project_id": {
+      "value": "demo",
+      "raw_value": "demo",
+      "page": 1,
+      "evidence_quote": "Demo fixture value: demo",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "claims.json",
+      "score": 100.0,
+      "winner_reason": "demo fixture"
+    },
+    "registry": {
+      "value": "verra",
+      "raw_value": "verra",
+      "page": null,
+      "evidence_quote": "Demo fixture value: verra",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "claims.json",
+      "score": 100.0,
+      "winner_reason": "demo fixture"
+    },
+    "methodology": {
+      "value": "VM0007",
+      "raw_value": "VM0007",
+      "page": null,
+      "evidence_quote": "Demo fixture value: VM0007",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "claims.json",
+      "score": 100.0,
+      "winner_reason": "demo fixture"
+    },
+    "claimed_area_ha": {
+      "value": 12500.0,
+      "raw_value": "12500.0",
+      "page": 4,
+      "evidence_quote": "Demo fixture value: 12500.0",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "claims.json",
+      "score": 100.0,
+      "winner_reason": "demo fixture"
+    },
+    "estate_area_ha": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": null,
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "reporting_period_start": {
+      "value": "2020-01-01",
+      "raw_value": "2020-01-01",
+      "page": null,
+      "evidence_quote": "Demo fixture value: 2020-01-01",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "claims.json",
+      "score": 100.0,
+      "winner_reason": "demo fixture"
+    },
+    "reporting_period_end": {
+      "value": "2023-12-31",
+      "raw_value": "2023-12-31",
+      "page": null,
+      "evidence_quote": "Demo fixture value: 2023-12-31",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "claims.json",
+      "score": 100.0,
+      "winner_reason": "demo fixture"
+    },
+    "crediting_period_start": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": null,
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "crediting_period_end": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": null,
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "project_start_date": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": null,
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "credits_issued": {
+      "value": 150000,
+      "raw_value": "150000",
+      "page": 18,
+      "evidence_quote": "Demo fixture value: 150000",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "claims.json",
+      "score": 100.0,
+      "winner_reason": "demo fixture"
+    },
+    "net_ghg_removals_tco2e": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": null,
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "buffer_credits_tco2e": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": null,
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "claimed_canopy_change_pct": {
+      "value": 2.5,
+      "raw_value": "2.5",
+      "page": 12,
+      "evidence_quote": "Demo fixture value: 2.5",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "claims.json",
+      "score": 100.0,
+      "winner_reason": "demo fixture"
+    },
+    "canopy_cover_pct": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": null,
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "min_area_ha": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": null,
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "min_height_m": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": null,
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "natural_forest_ha": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": null,
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    }
+  },
+  "extractor": "demo",
+  "pdf_sha256": "5a2289b8bf6a9b40e9931c09658bc7e3c7cf2ab934e467d6685f5486228715ea",
+  "demo": true,
+  "documents_scanned": [
+    "claims.json"
+  ],
+  "document_stats": {
+    "claims.json": {
+      "status": "demo_fixture"
+    }
+  },
+  "credits_consistency_check": null,
+  "planting_schedule": null,
+  "planted_area_by_year": null,
+  "planted_area_total_ha": null,
+  "stated_total_ha": null,
+  "check": null,
+  "source_notes": [],
+  "debug": {
+    "top_candidates": {},
+    "keyword_pages": []
+  }
+}

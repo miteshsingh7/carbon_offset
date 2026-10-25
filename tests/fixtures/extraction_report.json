@@ -1,0 +1,312 @@
+{
+  "document_path": "/Users/miteshsingh/Documents/projects/Carbon-Offset Project Verification via Remote Sensing/tests/fixtures/synthetic_pdd.pdf",
+  "fields": {
+    "project_id": {
+      "value": "VCS-INCOMPLETE",
+      "raw_value": "VCS-INCOMPLETE",
+      "page": 1,
+      "evidence_quote": "Project ID: VCS-1396",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "synthetic_pdd.pdf",
+      "score": 50.0,
+      "winner_reason": "pdd prioritized for project_id (score=50.0)"
+    },
+    "registry": {
+      "value": "verra",
+      "raw_value": "verra",
+      "page": 1,
+      "evidence_quote": "Verified Carbon Standard (Verra)",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "synthetic_pdd.pdf",
+      "score": 50.0,
+      "winner_reason": "highest score (50.0) from synthetic_pdd.pdf"
+    },
+    "methodology": {
+      "value": "VM0007",
+      "raw_value": "VM0007",
+      "page": 2,
+      "evidence_quote": "APPLIED METHODOLOGY AND SECTORAL SCOPE Methodology: VM0007 REDD+ Methodology Framework (Version 1.6) Sectoral Scope: 14 (Agriculture, Forestry, and Other Land Use - AFOLU) Applicability Conditions:",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "synthetic_pdd.pdf",
+      "score": 50.0,
+      "winner_reason": "pdd prioritized for methodology (score=50.0)"
+    },
+    "claimed_area_ha": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": "No valid candidate found matching rule-based patterns",
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "estate_area_ha": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": "No valid candidate found matching rule-based patterns",
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "reporting_period_start": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": "No valid candidate found matching rule-based patterns",
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "reporting_period_end": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": "No valid candidate found matching rule-based patterns",
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "crediting_period_start": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": "No valid candidate found matching rule-based patterns",
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "crediting_period_end": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": "No valid candidate found matching rule-based patterns",
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "project_start_date": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": "No valid candidate found matching rule-based patterns",
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "credits_issued": {
+      "value": 340000,
+      "raw_value": "340,000",
+      "page": 5,
+      "evidence_quote": "CREDIT ISSUANCE AND CANOPY MONITORING RESULTS Net Emission Reductions: Total Credits Issued: 340,000 VCUs (Verified Carbon Units) requested for issuance for the 2021-2023 reporting period.",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "synthetic_pdd.pdf",
+      "score": 50.0,
+      "winner_reason": "highest score (50.0) from synthetic_pdd.pdf"
+    },
+    "net_ghg_removals_tco2e": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": "No valid candidate found matching rule-based patterns",
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "buffer_credits_tco2e": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": "No valid candidate found matching rule-based patterns",
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "claimed_canopy_change_pct": {
+      "value": 3.2,
+      "raw_value": "+3.2%",
+      "page": 5,
+      "evidence_quote": "Remote Sensing Canopy Monitoring: Canopy Cover Change: The project monitoring team observed a claimed canopy change of +3.2% across the project accounting area relative to baseline degradation.",
+      "status": "accepted",
+      "reason": null,
+      "source_doc": "synthetic_pdd.pdf",
+      "score": 50.0,
+      "winner_reason": "highest score (50.0) from synthetic_pdd.pdf"
+    },
+    "canopy_cover_pct": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": "No valid candidate found matching rule-based patterns",
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "min_area_ha": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": "No valid candidate found matching rule-based patterns",
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "min_height_m": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": "No valid candidate found matching rule-based patterns",
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    },
+    "natural_forest_ha": {
+      "value": null,
+      "raw_value": null,
+      "page": null,
+      "evidence_quote": null,
+      "status": "missing",
+      "reason": "No valid candidate found matching rule-based patterns",
+      "source_doc": null,
+      "score": null,
+      "winner_reason": null
+    }
+  },
+  "extractor": "mock",
+  "pdf_sha256": "cc228871510c8241a3286bfa9af6e282c6d28715e34fca45e7babb8c7133c2a4",
+  "demo": false,
+  "documents_scanned": [
+    "synthetic_pdd.pdf"
+  ],
+  "document_stats": {
+    "synthetic_pdd.pdf": {
+      "page_count": 5,
+      "total_chars": 1738,
+      "avg_chars_per_page": 347.6,
+      "ocr_needed": false,
+      "status": "processed",
+      "sha256": "cc228871510c8241a3286bfa9af6e282c6d28715e34fca45e7babb8c7133c2a4"
+    }
+  },
+  "credits_consistency_check": null,
+  "planting_schedule": null,
+  "planted_area_by_year": null,
+  "planted_area_total_ha": null,
+  "stated_total_ha": null,
+  "check": null,
+  "source_notes": [],
+  "debug": {
+    "top_candidates": {
+      "project_id": [
+        {
+          "score": 50.0,
+          "doc": "synthetic_pdd.pdf",
+          "page": 1,
+          "quote": "Project ID: VCS-1396",
+          "raw_value": "VCS-INCOMPLETE",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "registry": [
+        {
+          "score": 50.0,
+          "doc": "synthetic_pdd.pdf",
+          "page": 1,
+          "quote": "Verified Carbon Standard (Verra)",
+          "raw_value": "verra",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "methodology": [
+        {
+          "score": 50.0,
+          "doc": "synthetic_pdd.pdf",
+          "page": 2,
+          "quote": "APPLIED METHODOLOGY AND SECTORAL SCOPE Methodology: VM0007 REDD+ Methodology Framework (Version 1.6) Sectoral Scope: 14 (Agriculture, Forestry, and Other Land Use - AFOLU) Applicability Conditions:",
+          "raw_value": "VM0007",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "claimed_area_ha": [],
+      "estate_area_ha": [],
+      "reporting_period_start": [],
+      "reporting_period_end": [],
+      "crediting_period_start": [],
+      "crediting_period_end": [],
+      "project_start_date": [],
+      "credits_issued": [
+        {
+          "score": 50.0,
+          "doc": "synthetic_pdd.pdf",
+          "page": 5,
+          "quote": "CREDIT ISSUANCE AND CANOPY MONITORING RESULTS Net Emission Reductions: Total Credits Issued: 340,000 VCUs (Verified Carbon Units) requested for issuance for the 2021-2023 reporting period.",
+          "raw_value": "340,000",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "net_ghg_removals_tco2e": [],
+      "buffer_credits_tco2e": [],
+      "claimed_canopy_change_pct": [
+        {
+          "score": 50.0,
+          "doc": "synthetic_pdd.pdf",
+          "page": 5,
+          "quote": "Remote Sensing Canopy Monitoring: Canopy Cover Change: The project monitoring team observed a claimed canopy change of +3.2% across the project accounting area relative to baseline degradation.",
+          "raw_value": "+3.2%",
+          "status": "valid",
+          "rejection_reason": null
+        }
+      ],
+      "canopy_cover_pct": [],
+      "min_area_ha": [],
+      "min_height_m": [],
+      "natural_forest_ha": []
+    },
+    "keyword_pages": [
+      {
+        "keyword": "area",
+        "doc": "synthetic_pdd.pdf",
+        "page": 3,
+        "snippet": "OJECT BOUNDARY AND ACCOUNTING AREA Geographic Location: Southwestern Amazon, Acre, B"
+      },
+      {
+        "keyword": "area",
+        "doc": "synthetic_pdd.pdf",
+        "page": 5,
+        "snippet": "across the project accounting area relative to baseline degradation."
+      }
+    ]
+  }
+}

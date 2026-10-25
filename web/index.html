@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CarbonVerify - Evidence Workbench</title>
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            surface: '#0f1513',
+            'surface-low': '#171d1c',
+            'surface-container': '#1b2120',
+            'surface-high': '#262b2a',
+            'surface-highest': '#303635',
+            primary: '#5af0b3',
+            'on-primary': '#003825',
+            'primary-container': '#005238',
+            secondary: '#b3ccbe',
+            'secondary-container': '#354c41',
+            tertiary: '#8ad0ea',
+            error: '#ffb4ab',
+            'error-container': '#93000a',
+            'on-surface': '#dee4e0',
+            'on-surface-variant': '#bec9c2',
+            outline: '#88938c',
+            'outline-variant': '#3c4a42',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Theme Tokens & Component Styles -->
+  <link rel="stylesheet" href="theme.css">
+</head>
+<body class="bg-surface text-on-surface flex flex-row min-h-screen">
+
+  <!-- Left Sidebar Navigation -->
+  <aside class="w-64 bg-surface-low border-r border-outline-variant flex flex-col flex-shrink-0 z-20">
+    <!-- Brand Title -->
+    <div class="p-5 border-b border-outline-variant flex items-center space-x-3">
+      <div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-primary font-bold">
+        CV
+      </div>
+      <div>
+        <h1 id="brand-title" class="font-bold text-base tracking-wide text-on-surface">CarbonVerify</h1>
+        <p id="brand-subtitle" class="text-xs text-on-surface-variant">Evidence Workbench</p>
+      </div>
+    </div>
+
+    <!-- Project Switcher -->
+    <div class="px-5 py-4 border-b border-outline-variant">
+      <label for="project-select" class="block text-xs uppercase tracking-wider text-outline font-semibold mb-1">
+        Select Project
+      </label>
+      <div class="relative">
+        <select id="project-select" class="w-full bg-surface-container border border-outline-variant text-on-surface text-sm rounded-lg px-3 py-2 pr-8 appearance-none focus:outline-none focus:border-primary">
+          <option value="">Loading...</option>
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-on-surface-variant">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nav Links -->
+    <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <a href="#/overview" id="nav-overview" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-on-surface-variant hover:bg-surface-high hover:text-on-surface transition-colors">
+        <span class="mr-3">📊</span>
+        <span id="nav-lbl-overview">Overview</span>
+      </a>
+      <a href="#/claims" id="nav-claims" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-on-surface-variant hover:bg-surface-high hover:text-on-surface transition-colors">
+        <span class="mr-3">📑</span>
+        <span id="nav-lbl-claims">Registry Claims</span>
+      </a>
+      <a href="#/area" id="nav-area" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-on-surface-variant hover:bg-surface-high hover:text-on-surface transition-colors">
+        <span class="mr-3">🌲</span>
+        <span id="nav-lbl-area">Planted Area Test</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+
+    <!-- Top Bar -->
+    <header class="h-16 bg-surface-low border-b border-outline-variant flex items-center justify-between px-6 flex-shrink-0">
+      <!-- Breadcrumb -->
+      <div class="flex items-center space-x-2 text-sm">
+        <span class="text-on-surface-variant">CarbonVerify</span>
+        <span class="text-outline">/</span>
+        <span id="breadcrumb-project" class="text-on-surface-variant font-mono">...</span>
+        <span class="text-outline">/</span>
+        <span id="breadcrumb-page" class="font-medium text-primary">Overview</span>
+      </div>
+
+      <!-- Action Items & Indicators -->
+      <div class="flex items-center space-x-4">
+        <!-- Quiet Read-Only Viewer Label -->
+        <span id="viewer-mode-pill" class="text-xs px-2.5 py-1 rounded bg-surface-container text-on-surface-variant border border-outline-variant">
+          Read-only viewer
+        </span>
+
+        <!-- Demo Fixture Pill (Shown ONLY if demo is true) -->
+        <span id="demo-pill" class="hidden text-xs px-2.5 py-1 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30 font-semibold tracking-wide">
+          Demo fixture
+        </span>
+
+        <!-- Download Report Menu -->
+        <div class="relative group">
+          <button id="download-report-btn" class="flex items-center space-x-2 text-xs font-semibold px-3 py-1.5 rounded-lg bg-surface-high hover:bg-surface-highest text-on-surface border border-outline-variant transition-colors">
+            <span>Download report</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </button>
+          <div class="hidden group-hover:block absolute right-0 mt-1 w-44 bg-surface-container border border-outline-variant rounded-lg shadow-xl z-50 py-1">
+            <a id="download-html-link" href="#" target="_blank" class="block px-4 py-2 text-xs text-on-surface hover:bg-surface-high">HTML Report</a>
+            <a id="download-json-link" href="#" target="_blank" class="block px-4 py-2 text-xs text-on-surface hover:bg-surface-high">JSON Report</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content Container -->
+    <main id="app-container" class="flex-1 p-6 space-y-6">
+      <div class="text-center py-12 text-on-surface-variant">Loading project evidence...</div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-4 px-6 border-t border-outline-variant bg-surface-low text-xs text-on-surface-variant flex justify-between items-center">
+      <span id="footer-text">Report generated from output/report.json - hashes recorded for the cached data</span>
+      <span id="footer-hashes" class="font-mono text-[11px] text-outline"></span>
+    </footer>
+  </div>
+
+  <!-- Right-Hand Evidence Quote Drawer Modal -->
+  <div id="evidence-drawer-backdrop" class="fixed inset-0 evidence-drawer-backdrop z-40 hidden flex justify-end">
+    <div id="evidence-drawer" class="w-full max-w-md h-full evidence-drawer p-6 flex flex-col justify-between overflow-y-auto">
+      <div>
+        <div class="flex items-center justify-between pb-4 border-b border-outline-variant">
+          <h2 id="drawer-title" class="text-base font-semibold text-on-surface">Document Evidence</h2>
+          <button id="drawer-close-btn" class="text-on-surface-variant hover:text-on-surface p-1 rounded-lg">
+            ✕
+          </button>
+        </div>
+        <div class="mt-5 space-y-4 text-sm">
+          <div>
+            <span class="block text-xs uppercase tracking-wider text-outline font-semibold mb-1">Document</span>
+            <div id="drawer-doc-name" class="font-mono text-on-surface bg-surface-low px-3 py-2 rounded border border-outline-variant"></div>
+          </div>
+          <div>
+            <span class="block text-xs uppercase tracking-wider text-outline font-semibold mb-1">Page</span>
+            <div id="drawer-doc-page" class="font-mono text-on-surface bg-surface-low px-3 py-2 rounded border border-outline-variant"></div>
+          </div>
+          <div>
+            <span class="block text-xs uppercase tracking-wider text-outline font-semibold mb-1">Stored Verbatim Quote</span>
+            <div id="drawer-doc-quote" class="font-mono text-sm text-primary bg-surface-lowest p-3 rounded border border-outline-variant whitespace-pre-wrap leading-relaxed"></div>
+          </div>
+        </div>
+      </div>
+      <div class="pt-6 border-t border-outline-variant">
+        <button id="drawer-close-action" class="w-full py-2 bg-surface-high hover:bg-surface-highest text-sm text-on-surface rounded-lg transition-colors">
+          Close panel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

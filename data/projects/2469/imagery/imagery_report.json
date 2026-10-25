@@ -1,0 +1,13 @@
+{
+  "scene_counts_per_year": {
+    "2019": 40,
+    "2020": 53,
+    "2021": 46,
+    "2022": 46
+  },
+  "total_scenes_processed": 185,
+  "mean_valid_fraction": 0.8915,
+  "months_with_no_valid_scene": [],
+  "total_runtime_seconds": 0.0,
+  "errors": []
+}

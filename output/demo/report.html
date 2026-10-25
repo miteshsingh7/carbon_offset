@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verification Report - demo</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --consistent: #10b981;
+      --minor: #f59e0b;
+      --major: #ef4444;
+      --inconclusive: #64748b;
+      --high: #10b981;
+      --medium: #f59e0b;
+      --low: #ef4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    header {
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: 0.25rem;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .badge-CONSISTENT { background: rgba(16, 185, 129, 0.2); color: var(--consistent); border: 1px solid var(--consistent); }
+    .badge-MINOR { background: rgba(245, 158, 11, 0.2); color: var(--minor); border: 1px solid var(--minor); }
+    .badge-MAJOR { background: rgba(239, 68, 68, 0.2); color: var(--major); border: 1px solid var(--major); }
+    .badge-INCONCLUSIVE { background: rgba(100, 116, 139, 0.2); color: var(--inconclusive); border: 1px solid var(--inconclusive); }
+    .badge-HIGH { background: rgba(16, 185, 129, 0.15); color: var(--high); }
+    .badge-MEDIUM { background: rgba(245, 158, 11, 0.15); color: var(--medium); }
+    .badge-LOW { background: rgba(239, 68, 68, 0.15); color: var(--low); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+    }
+    .card h2 {
+      font-size: 1.15rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.4rem 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+      font-size: 0.92rem;
+    }
+    .metric-row:last-child { border-bottom: none; }
+    .metric-label { color: var(--text-muted); }
+    .metric-val { font-weight: 600; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.75rem;
+      font-size: 0.92rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.75rem 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+    .reasons-list {
+      list-style-type: none;
+      margin-top: 0.5rem;
+    }
+    .reasons-list li {
+      padding: 0.5rem 0.75rem;
+      background: rgba(245, 158, 11, 0.1);
+      border-left: 3px solid var(--minor);
+      margin-bottom: 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.88rem;
+    }
+    .notes-box {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Carbon Verification Report</h1>
+        <div class="subtitle">Project ID: <strong>demo</strong> | Registry: VERRA | Methodology: VM0007</div>
+      </div>
+      <div>
+        <span class="badge badge-VerificationStatus.CONSISTENT">Status: VerificationStatus.CONSISTENT</span>
+        <span class="badge badge-ConfidenceLevel.HIGH">Confidence: ConfidenceLevel.HIGH</span>
+        
+          <span class="badge" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid #60a5fa;">DEMO FIXTURE</span>
+        
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- Project Claims -->
+      <div class="card">
+        <h2>Documented Claims</h2>
+        <div class="metric-row">
+          <span class="metric-label">Claimed Area:</span>
+          <span class="metric-val">
+            
+              12,500.0 ha
+            
+          </span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Reporting Period:</span>
+          <span class="metric-val">
+            
+              2020-01-01 to 2023-12-31
+            
+          </span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Claimed Canopy Change:</span>
+          <span class="metric-val">
+            
+              +2.50%
+            
+          </span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Credits Issued:</span>
+          <span class="metric-val">
+            
+              150,000 VCUs
+            
+          </span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Boundary Path:</span>
+          <span class="metric-val" style="font-size:0.8rem; word-break:break-all;">data/projects/demo/boundary.geojson</span>
+        </div>
+      </div>
+
+      <!-- Satellite Estimate -->
+      <div class="card">
+        <h2>Satellite Observations</h2>
+        <div class="metric-row">
+          <span class="metric-label">Observed Area:</span>
+          <span class="metric-val">12,450.0 ha</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Mean NDVI (Start &rarr; End):</span>
+          <span class="metric-val">0.720 &rarr; 0.740</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Observed Canopy Change:</span>
+          <span class="metric-val">
+            
+              +2.10%
+            
+          </span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Biomass Proxy Change:</span>
+          <span class="metric-val">
+            
+              +1.80%
+            
+          </span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">External Buffer Control:</span>
+          <span class="metric-val">
+            
+              -0.50%
+            
+          </span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Valid Scenes / Cloud Cover:</span>
+          <span class="metric-val">24 scenes (12.5% cloud)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparison & Discrepancy -->
+    <div class="card" style="margin-bottom: 1.5rem;">
+      <h2>Discrepancy Cross-Check</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <th>Claimed</th>
+            <th>Satellite Observed</th>
+            <th>Discrepancy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Project Area</strong></td>
+            <td>
+              
+                12,500.0 ha
+              
+            </td>
+            <td>12,450.0 ha</td>
+            <td>
+              <strong>
+                
+                  -0.40%
+                
+              </strong>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Canopy Cover Change</strong></td>
+            <td>
+              
+                +2.50%
+              
+            </td>
+            <td>
+              
+                +2.10%
+              
+            </td>
+            <td>
+              <strong>
+                
+                  -0.40%
+                
+              </strong>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Quality & Confidence Flags -->
+    
+
+    <!-- Audit Summary Notes -->
+    <div class="card">
+      <h2>Assessment Findings & Notes</h2>
+      <div class="notes-box">
+        Verification status is CONSISTENT: Maximum observed discrepancy of 0.40% is within acceptable tolerance (<= 10.0%).
+      </div>
+    </div>
+
+    <footer>
+      Generated by <strong>carbonverify</strong> pipeline &bull; Automated Earth Observation Assessment
+    </footer>
+  </div>
+</body>
+</html>

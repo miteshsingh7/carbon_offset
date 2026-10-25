@@ -1,0 +1,750 @@
+{
+  "project_id": "2469",
+  "claims": {
+    "project_id": "2469",
+    "registry": "verra",
+    "methodology": "AR-ACM0003",
+    "claimed_area_ha": 1300.0,
+    "estate_area_ha": 2309.0,
+    "reporting_period_start": "2021-01-01",
+    "reporting_period_end": "2022-09-30",
+    "crediting_period_start": "2018-06-01",
+    "crediting_period_end": "2038-05-31",
+    "project_start_date": "2018-06-01",
+    "claimed_canopy_change_pct": null,
+    "credits_issued": 68493,
+    "net_ghg_removals_tco2e": 77834,
+    "buffer_credits_tco2e": 9340,
+    "forest_definition": {
+      "canopy_cover_pct": 25.0,
+      "min_area_ha": 0.5,
+      "min_height_m": 5.0
+    },
+    "canopy_cover_pct": 25.0,
+    "min_area_ha": 0.5,
+    "min_height_m": 5.0,
+    "planting_schedule": [
+      {
+        "stratum": "2018_714",
+        "planting_year": 2018,
+        "density": 714,
+        "area_ha": 159.0,
+        "source_doc": "monitoring_report.pdf",
+        "page": 44,
+        "evidence_quote": "2018_714 159 161 -2"
+      },
+      {
+        "stratum": "2018_1000",
+        "planting_year": 2018,
+        "density": 1000,
+        "area_ha": 186.0,
+        "source_doc": "monitoring_report.pdf",
+        "page": 44,
+        "evidence_quote": "2018_1000 186 185 2"
+      },
+      {
+        "stratum": "2019_500",
+        "planting_year": 2019,
+        "density": 500,
+        "area_ha": 41.0,
+        "source_doc": "monitoring_report.pdf",
+        "page": 44,
+        "evidence_quote": "2019_500 41 41 0"
+      },
+      {
+        "stratum": "2019_714",
+        "planting_year": 2019,
+        "density": 714,
+        "area_ha": 252.0,
+        "source_doc": "monitoring_report.pdf",
+        "page": 44,
+        "evidence_quote": "2019_714 252 252 0"
+      },
+      {
+        "stratum": "2019_1000",
+        "planting_year": 2019,
+        "density": 1000,
+        "area_ha": 353.0,
+        "source_doc": "monitoring_report.pdf",
+        "page": 44,
+        "evidence_quote": "2019_1000 353 354 -1"
+      },
+      {
+        "stratum": "2020_476",
+        "planting_year": 2020,
+        "density": 476,
+        "area_ha": 104.0,
+        "source_doc": "monitoring_report.pdf",
+        "page": 44,
+        "evidence_quote": "2020_476 104 104"
+      },
+      {
+        "stratum": "2020_500",
+        "planting_year": 2020,
+        "density": 500,
+        "area_ha": 10.0,
+        "source_doc": "monitoring_report.pdf",
+        "page": 44,
+        "evidence_quote": "2020_500 10 10"
+      },
+      {
+        "stratum": "2020_800",
+        "planting_year": 2020,
+        "density": 800,
+        "area_ha": 108.0,
+        "source_doc": "monitoring_report.pdf",
+        "page": 44,
+        "evidence_quote": "2020_800 108 108"
+      },
+      {
+        "stratum": "2020_1000",
+        "planting_year": 2020,
+        "density": 1000,
+        "area_ha": 88.0,
+        "source_doc": "monitoring_report.pdf",
+        "page": 44,
+        "evidence_quote": "2020_1000 88 88"
+      }
+    ],
+    "planted_area_by_year": {
+      "2018": 345.0,
+      "2019": 646.0,
+      "2020": 310.0
+    },
+    "planted_area_total_ha": 1301.0,
+    "stated_total_ha": 1300.0,
+    "natural_forest_ha": 541.0,
+    "check": {
+      "is_consistent": true,
+      "sum_area_ha": 1301.0,
+      "stated_total_ha": 1300.0,
+      "discrepancy_ha": 1.0,
+      "status": "CONSISTENT"
+    },
+    "boundary_path": "/Users/miteshsingh/Documents/projects/Carbon-Offset Project Verification via Remote Sensing/data/projects/2469/boundary.geojson",
+    "source_pages": {
+      "project_id": 1,
+      "registry": 3,
+      "methodology": 9,
+      "claimed_area_ha": 3,
+      "estate_area_ha": 5,
+      "reporting_period_start": 1,
+      "reporting_period_end": 1,
+      "crediting_period_start": 5,
+      "crediting_period_end": 5,
+      "project_start_date": 5,
+      "credits_issued": 3,
+      "net_ghg_removals_tco2e": 3,
+      "buffer_credits_tco2e": 3,
+      "canopy_cover_pct": 69,
+      "min_area_ha": 69,
+      "min_height_m": 69,
+      "natural_forest_ha": 19
+    },
+    "demo": false
+  },
+  "estimate": {
+    "area_ha": 2311.99,
+    "ndvi_mean_start": 0.61,
+    "ndvi_mean_end": 0.76,
+    "canopy_change_pct": 94.35,
+    "biomass_proxy_change_pct": 24.83,
+    "reference_buffer_change_pct": 8.87,
+    "valid_observation_count": 162,
+    "mean_cloud_cover_pct": 10.9,
+    "planted_area_obs_low": 1015.2,
+    "planted_area_obs_central": 1265.0,
+    "planted_area_obs_high": 1505.62,
+    "forest_allowance_ha": 541.0,
+    "grid_estimates": {
+      "0.6": {
+        "a_2022_ha": 2046.62,
+        "forest_allowance_ha": 541.0,
+        "obs_ha": 1505.62
+      },
+      "0.65": {
+        "a_2022_ha": 1891.93,
+        "forest_allowance_ha": 541.0,
+        "obs_ha": 1350.93
+      },
+      "0.7": {
+        "a_2022_ha": 1720.06,
+        "forest_allowance_ha": 541.0,
+        "obs_ha": 1179.06
+      },
+      "0.75": {
+        "a_2022_ha": 1556.2,
+        "forest_allowance_ha": 541.0,
+        "obs_ha": 1015.2
+      }
+    },
+    "cohort_breakdown": {
+      "cohorts": {
+        "(0.5, 0.7)": {
+          "cohort_2020_ha": 341.95,
+          "cohort_2021_ha": 144.04,
+          "cohort_2022_ha": 0.54,
+          "total_ha": 486.53,
+          "pre_existing_ha": 1651.51
+        },
+        "(0.6, 0.7)": {
+          "cohort_2020_ha": 425.98,
+          "cohort_2021_ha": 203.15,
+          "cohort_2022_ha": 22.46,
+          "total_ha": 651.59,
+          "pre_existing_ha": 1320.88
+        },
+        "(0.6, 0.65)": {
+          "cohort_2020_ha": 476.52,
+          "cohort_2021_ha": 222.63,
+          "cohort_2022_ha": 33.51,
+          "total_ha": 732.66,
+          "pre_existing_ha": 1320.88
+        },
+        "(0.6, 0.75)": {
+          "cohort_2020_ha": 371.61,
+          "cohort_2021_ha": 179.61,
+          "cohort_2022_ha": 13.64,
+          "total_ha": 564.86,
+          "pre_existing_ha": 1320.88
+        },
+        "(0.7, 0.8)": {
+          "cohort_2020_ha": 257.82,
+          "cohort_2021_ha": 149.64,
+          "cohort_2022_ha": 23.12,
+          "total_ha": 430.58,
+          "pre_existing_ha": 885.01
+        }
+      },
+      "cohort_lower_bound_total_range_ha": [
+        430.58,
+        732.66
+      ],
+      "cohort_2021_lower_bound_range_ha": [
+        144.04,
+        222.63
+      ],
+      "label": "lower bound",
+      "scheduled_2019_2020_ha": 956.0,
+      "scheduled_2020_ha": 310.0
+    },
+    "pre_existing_decline_ha": 43.11,
+    "saturation_share_pct": 44.12,
+    "saturation_pixel_count": 68656,
+    "saturation_total_count": 155620,
+    "ring_p5_2019": 0.3937,
+    "ring_p5_2022_raw": 0.2931,
+    "ring_p5_2022_qm": 0.3937,
+    "dry_season_qc_scenes": {
+      "2019": 8,
+      "2020": 11,
+      "2021": 8,
+      "2022": 11
+    },
+    "file_hashes": {
+      "project_boundary.geojson": "8a7be9d1d352111efbd9ab7c221c7f7648717bdf131377398222298d8bb8106b",
+      "reference_ring.geojson": "4aac809d7a8d458ca87de0827b72e8bfd045194cf3b8c921fb17c68597aa00f5",
+      "timeseries.csv": "efaff2b86e7d8e4ecf97eb70e30abef3b6fabd27a82c915ba40778acb2665fa9",
+      "qc_scenes.csv": "68c62de812d1b68ab5983f38433e68b6ef9335da6342f0c61ff0f2ba79d60d94",
+      "raw_composite_2019.tif": "96f865512cf98c1d77740f621bbe1db8f04b53bf42dad6cde02d97e581156724",
+      "raw_composite_2020.tif": "9634235069fb33aef103ed406863ee392c9b8ffef02c09d9d23e2826091db361",
+      "raw_composite_2021.tif": "9aced56b4fd69901297e9b6515ca3ab6c48d987696737577cb8265e7d39c5f69",
+      "raw_composite_2022.tif": "04247120716bc1760515e3f2e464d893397dde36049181e6f0f26da9876dafd0",
+      "ndvi_qm_2019.tif": "882658279edcfe08371e8b3122738378f8f33cdd8d6882e632dc89f62184ca37",
+      "ndvi_qm_2020.tif": "9dd878ccb6d94f45f52440b56b7ad959c927ba521022a2472e6e35894199e4f0",
+      "ndvi_qm_2021.tif": "68fa8bcb976fae0b20b97b8d9c740ec96ac423143aebc76d4a24bf359e084016",
+      "ndvi_qm_2022.tif": "b7f274ede01dcd6ecc56b2675e3243bba86f899a610d0bd6e2f0c47f7265c32d"
+    },
+    "normalization_sensitivity": {
+      "areas_by_threshold": {
+        "0.6": {
+          "2019": {
+            "raw_ha": 1320.88,
+            "qm_ha": 1320.88
+          },
+          "2020": {
+            "raw_ha": 1764.32,
+            "qm_ha": 1713.45
+          },
+          "2021": {
+            "raw_ha": 1686.5,
+            "qm_ha": 1886.51
+          },
+          "2022": {
+            "raw_ha": 2161.79,
+            "qm_ha": 2046.62
+          }
+        },
+        "0.65": {
+          "2019": {
+            "raw_ha": 1108.07,
+            "qm_ha": 1108.07
+          },
+          "2020": {
+            "raw_ha": 1629.44,
+            "qm_ha": 1581.08
+          },
+          "2021": {
+            "raw_ha": 1499.91,
+            "qm_ha": 1718.74
+          },
+          "2022": {
+            "raw_ha": 2061.57,
+            "qm_ha": 1891.93
+          }
+        },
+        "0.7": {
+          "2019": {
+            "raw_ha": 885.01,
+            "qm_ha": 885.01
+          },
+          "2020": {
+            "raw_ha": 1458.21,
+            "qm_ha": 1438.08
+          },
+          "2021": {
+            "raw_ha": 1271.47,
+            "qm_ha": 1554.24
+          },
+          "2022": {
+            "raw_ha": 1901.55,
+            "qm_ha": 1720.06
+          }
+        },
+        "0.75": {
+          "2019": {
+            "raw_ha": 659.95,
+            "qm_ha": 659.95
+          },
+          "2020": {
+            "raw_ha": 1235.01,
+            "qm_ha": 1276.16
+          },
+          "2021": {
+            "raw_ha": 939.37,
+            "qm_ha": 1375.84
+          },
+          "2022": {
+            "raw_ha": 1663.5,
+            "qm_ha": 1556.2
+          }
+        }
+      },
+      "ring_raw_median": {
+        "2019": 0.6165,
+        "2020": 0.6353,
+        "2021": 0.5535,
+        "2022": 0.6712
+      },
+      "raw_obs_grid": {
+        "0.6": 1620.79,
+        "0.65": 1520.57,
+        "0.7": 1360.55,
+        "0.75": 1122.5
+      },
+      "raw_band": {
+        "low": 1122.5,
+        "central": 1440.56,
+        "high": 1620.79,
+        "span_ha": 498.29,
+        "span_pct": 38.33,
+        "detection_limit_ha": 177.5,
+        "detection_limit_pct": 13.65
+      }
+    },
+    "hansen_crosscheck": {
+      "gfc_version": "GFC-2022-v1.10",
+      "tiles": [
+        "20S_060W"
+      ],
+      "primary_tile": "20S_060W",
+      "file_hashes": {
+        "Hansen_GFC-2022-v1.10_treecover2000_20S_060W.tif": "a26b3f9da4c6215fdd69bc3c4de72282c402493b7b594cb28a465c6fe9a15c63",
+        "Hansen_GFC-2022-v1.10_lossyear_20S_060W.tif": "8f9053c150a9e4c666d14b3c0fa5d9bc7e5c87c2ad4e21c3486c835c1aa722ce"
+      },
+      "resampling_description": "10 m binary masks in EPSG:32721 are resampled to the Hansen GFC 30 m grid in EPSG:4326 using nearest-neighbor centroid sampling (rasterio.warp.reproject with Resampling.nearest).",
+      "decline_43ha": {
+        "sample_size": 601,
+        "area_ha": 42.36,
+        "treecover2000_ge_25_share": 0.7338,
+        "treecover2000_ge_50_share": 0.5807,
+        "loss_share_2019": 0.005,
+        "loss_share_2020": 0.0799,
+        "loss_share_2021": 0.0116,
+        "loss_share_2022": 0.0549,
+        "loss_share_2019_2022_total": 0.1514,
+        "loss_ha_by_year": {
+          "2019": 0.21,
+          "2020": 3.38,
+          "2021": 0.49,
+          "2022": 2.33
+        },
+        "loss_ha_total": 6.41
+      },
+      "controls": {
+        "high_all4": {
+          "sample_size": 9228,
+          "area_ha": 650.31,
+          "treecover2000_ge_25_share": 0.7254,
+          "treecover2000_ge_50_share": 0.7031,
+          "loss_share_2019": 0.0506,
+          "loss_share_2020": 0.0021,
+          "loss_share_2021": 0.0261,
+          "loss_share_2022": 0.0139,
+          "loss_share_2019_2022_total": 0.0927,
+          "loss_ha_by_year": {
+            "2019": 32.91,
+            "2020": 1.34,
+            "2021": 16.99,
+            "2022": 9.02
+          },
+          "loss_ha_total": 60.26
+        },
+        "project_boundary": {
+          "sample_size": 32835,
+          "area_ha": 2313.96,
+          "treecover2000_ge_25_share": 0.4638,
+          "treecover2000_ge_50_share": 0.3711,
+          "loss_share_2019": 0.0443,
+          "loss_share_2020": 0.0199,
+          "loss_share_2021": 0.0115,
+          "loss_share_2022": 0.0074,
+          "loss_share_2019_2022_total": 0.0831,
+          "loss_ha_by_year": {
+            "2019": 102.53,
+            "2020": 46.1,
+            "2021": 26.5,
+            "2022": 17.19
+          },
+          "loss_ha_total": 192.33
+        },
+        "reference_ring": {
+          "sample_size": 246202,
+          "area_ha": 17350.35,
+          "treecover2000_ge_25_share": 0.6787,
+          "treecover2000_ge_50_share": 0.4405,
+          "loss_share_2019": 0.006,
+          "loss_share_2020": 0.0114,
+          "loss_share_2021": 0.0148,
+          "loss_share_2022": 0.0152,
+          "loss_share_2019_2022_total": 0.0474,
+          "loss_ha_by_year": {
+            "2019": 104.42,
+            "2020": 198.56,
+            "2021": 256.05,
+            "2022": 263.18
+          },
+          "loss_ha_total": 822.21
+        }
+      },
+      "boundary_loss_ha_by_year": {
+        "2019": 102.53,
+        "2020": 46.1,
+        "2021": 26.5,
+        "2022": 17.19
+      },
+      "boundary_loss_ha_total": 192.33
+    },
+    "forest_allowance_check": {
+      "gfc_version": "GFC-2022-v1.10",
+      "tiles": [
+        "20S_060W"
+      ],
+      "primary_tile": "20S_060W",
+      "file_hashes": {
+        "Hansen_GFC-2022-v1.10_treecover2000_20S_060W.tif": "a26b3f9da4c6215fdd69bc3c4de72282c402493b7b594cb28a465c6fe9a15c63",
+        "Hansen_GFC-2022-v1.10_lossyear_20S_060W.tif": "8f9053c150a9e4c666d14b3c0fa5d9bc7e5c87c2ad4e21c3486c835c1aa722ce"
+      },
+      "claimed_planted_ha": 1300.0,
+      "claimed_forest_allowance_ha": 541.0,
+      "break_even_allowance": {
+        "by_threshold": {
+          "0.6": {
+            "a_2022_ha": 2046.62,
+            "f_star_ha": 746.62,
+            "margin_ha": 205.62
+          },
+          "0.65": {
+            "a_2022_ha": 1891.93,
+            "f_star_ha": 591.93,
+            "margin_ha": 50.93
+          },
+          "0.7": {
+            "a_2022_ha": 1720.06,
+            "f_star_ha": 420.06,
+            "margin_ha": -120.94
+          },
+          "0.75": {
+            "a_2022_ha": 1556.2,
+            "f_star_ha": 256.2,
+            "margin_ha": -284.8
+          }
+        },
+        "decisive_threshold": "0.6",
+        "f_star_06_ha": 746.62,
+        "margin_06_ha": 205.62,
+        "f_star_low_end_ha": 256.2,
+        "margin_low_end_ha": -284.8
+      },
+      "f_star_06_ha": 746.62,
+      "margin_06_ha": 205.62,
+      "f_star_low_end_ha": 256.2,
+      "margin_low_end_ha": -284.8,
+      "persistence": {
+        "25": {
+          "treecover2000_ha": 1073.3,
+          "persistent_2018_ha": 982.96,
+          "persistent_qm19_ge_06_ha": 836.03,
+          "persistent_qm19_ge_07_ha": 612.25,
+          "loss_2001_2018_ha": 90.34,
+          "claimed_allowance_ha": 541.0
+        },
+        "50": {
+          "treecover2000_ha": 858.65,
+          "persistent_2018_ha": 789.8,
+          "persistent_qm19_ge_06_ha": 720.02,
+          "persistent_qm19_ge_07_ha": 574.13,
+          "loss_2001_2018_ha": 68.85,
+          "claimed_allowance_ha": 541.0
+        },
+        "75": {
+          "treecover2000_ha": 670.19,
+          "persistent_2018_ha": 629.24,
+          "persistent_qm19_ge_06_ha": 597.39,
+          "persistent_qm19_ge_07_ha": 523.67,
+          "loss_2001_2018_ha": 40.95,
+          "claimed_allowance_ha": 541.0
+        }
+      }
+    },
+    "decline_analysis": {
+      "decline_set_d": {
+        "area_ha": 74.7,
+        "first_high_split": {
+          "2019": 43.11,
+          "2020": 26.94,
+          "2021": 4.65
+        },
+        "moderate_decline_60_70_ha": 179.02,
+        "components": {
+          "count": 848,
+          "share_lt_1ha_pct": 59.64,
+          "share_1_to_5ha_pct": 26.87,
+          "share_gt_5ha_pct": 13.49,
+          "area_lt_1ha": 44.55,
+          "area_1_to_5ha": 20.07,
+          "area_gt_5ha": 10.08,
+          "largest_component_ha": 10.08,
+          "largest_component_raw_means": {
+            "2019": 0.6313,
+            "2020": 0.7387,
+            "2021": 0.3656,
+            "2022": 0.5677
+          }
+        }
+      },
+      "g22_cohort": {
+        "area_ha": 125.94,
+        "components": {
+          "count": 1257,
+          "share_lt_1ha_pct": 39.77,
+          "share_1_to_5ha_pct": 13.86,
+          "share_gt_5ha_pct": 46.36,
+          "components_gt_5ha": [
+            29.33,
+            14.63,
+            9.1,
+            5.33
+          ],
+          "count_gt_5ha": 4,
+          "largest_component_ha": 29.33,
+          "largest_component_raw_means": {
+            "2019": 0.5051,
+            "2020": 0.6148,
+            "2021": 0.5457,
+            "2022": 0.8092
+          }
+        }
+      },
+      "sensitivity_t70_excl_g22": {
+        "threshold": 0.7,
+        "a_2022_ha": 1720.06,
+        "g22_area_ha": 125.94,
+        "forest_allowance_ha": 541.0,
+        "observed_area_excl_g22_ha": 1053.12
+      },
+      "strict_2022_cohort": {
+        "area_ha": 22.46,
+        "share_lt_1ha_pct": 62.96,
+        "share_lt_1ha_round_pct": 63,
+        "n_components": 273
+      },
+      "endpoint_gain_mask_ha": 706.16,
+      "latest_planting_year": 2020
+    },
+    "canopy_biomass": {
+      "thresholds": [
+        "0.60",
+        "0.65",
+        "0.70",
+        "0.75"
+      ],
+      "years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "primary_threshold": "0.70",
+      "baseline_year": "2019",
+      "end_year": "2022",
+      "estate_boundary_ha": 2311.99,
+      "table": {
+        "0.60": {
+          "2019": {
+            "area_ha": 1320.88,
+            "share_pct": 57.13
+          },
+          "2020": {
+            "area_ha": 1713.45,
+            "share_pct": 74.11
+          },
+          "2021": {
+            "area_ha": 1886.51,
+            "share_pct": 81.6
+          },
+          "2022": {
+            "area_ha": 2046.62,
+            "share_pct": 88.52
+          }
+        },
+        "0.65": {
+          "2019": {
+            "area_ha": 1108.07,
+            "share_pct": 47.93
+          },
+          "2020": {
+            "area_ha": 1581.08,
+            "share_pct": 68.39
+          },
+          "2021": {
+            "area_ha": 1718.74,
+            "share_pct": 74.34
+          },
+          "2022": {
+            "area_ha": 1891.93,
+            "share_pct": 81.83
+          }
+        },
+        "0.70": {
+          "2019": {
+            "area_ha": 885.01,
+            "share_pct": 38.28
+          },
+          "2020": {
+            "area_ha": 1438.08,
+            "share_pct": 62.2
+          },
+          "2021": {
+            "area_ha": 1554.24,
+            "share_pct": 67.23
+          },
+          "2022": {
+            "area_ha": 1720.06,
+            "share_pct": 74.4
+          }
+        },
+        "0.75": {
+          "2019": {
+            "area_ha": 659.95,
+            "share_pct": 28.54
+          },
+          "2020": {
+            "area_ha": 1276.16,
+            "share_pct": 55.2
+          },
+          "2021": {
+            "area_ha": 1375.84,
+            "share_pct": 59.51
+          },
+          "2022": {
+            "area_ha": 1556.2,
+            "share_pct": 67.31
+          }
+        }
+      },
+      "canopy_change_pct_by_threshold": {
+        "0.60": 54.94,
+        "0.65": 70.74,
+        "0.70": 94.35,
+        "0.75": 135.81
+      },
+      "canopy_change_pct": 94.35,
+      "canopy_change_min_pct": 54.94,
+      "canopy_change_max_pct": 135.81,
+      "canopy_change_grid_range": [
+        54.94,
+        135.81
+      ],
+      "biomass_proxy_by_year": {
+        "2019": {
+          "mean": 0.606,
+          "p90": 0.8248
+        },
+        "2020": {
+          "mean": 0.6838,
+          "p90": 0.8504
+        },
+        "2021": {
+          "mean": 0.7302,
+          "p90": 0.8504
+        },
+        "2022": {
+          "mean": 0.7565,
+          "p90": 0.8623
+        }
+      },
+      "biomass_proxy_change_pct": 24.83,
+      "reference_buffer_raw_medians": {
+        "2019": 0.6165,
+        "2020": 0.6353,
+        "2021": 0.5535,
+        "2022": 0.6712
+      },
+      "reference_buffer_change_pct": 8.87,
+      "p90_ring_ranks": {
+        "2019": 93.32,
+        "2020": 97.85,
+        "2021": 97.85,
+        "2022": 99.12
+      }
+    },
+    "first_high_year_areas": {
+      "2019": 885.01,
+      "2020": 653.36,
+      "2021": 309.47,
+      "2022": 125.94,
+      "never": 338.21
+    }
+  },
+  "area_discrepancy_pct": 0.0,
+  "canopy_discrepancy_pct": null,
+  "planted_area_discrepancy_pct": 0.0,
+  "shortfall_central_ha": 35.0,
+  "shortfall_low_ha": 284.8,
+  "status": "CONSISTENT",
+  "confidence": "LOW",
+  "confidence_reasons": [
+    "Observation band width relative to claim: span / claimed = 37.72% (490.42 ha); detection limit: (claimed - obs_low) / claimed = 21.91% (284.80 ha)",
+    "Forest allowance of 541.0 ha taken from registry documentation claim (pdd.pdf, page 19)",
+    "Upper thresholds near NDVI saturation: share of 2022 project pixels with qm >= 0.75 that also have raw NDVI >= 0.85 is 44.12% (68,656 / 155,620)",
+    "Reference ring non-stationarity: raw ring p5 in 2019 vs 2022 is 0.3937 vs 0.2931",
+    "Dry-season QC-pass scenes per year read from qc_scenes.csv: {'2019': 8, '2020': 11, '2021': 8, '2022': 11}",
+    "Without ring normalisation the band is [1122.50, 1620.79] ha (detection limit 13.65%); status unchanged"
+  ],
+  "observations": [
+    "area with qm(2019) >= 0.7 and qm(2022) < 0.6 = 43.11 ha; land cover unknown; unscored"
+  ],
+  "notes": "Planted area verification: claimed 1,300.0 ha vs satellite observation band [1015.20, 1505.62] ha (central: 1265.00 ha). One-sided discrepancy is 0.00% (CONSISTENT). Shortfall at central estimate: 35.00 ha, at low estimate: 284.80 ha. Strict hysteresis cohort lower bound: total range across all 5 pairs is 430.58 - 732.66 ha (scheduled 2019+2020: 956.00 ha); cohort-2021 range is 144.04 - 222.63 ha (scheduled 2020: 310.00 ha). Confidence caveats: Observation band width relative to claim: span / claimed = 37.72% (490.42 ha); detection limit: (claimed - obs_low) / claimed = 21.91% (284.80 ha); Forest allowance of 541.0 ha taken from registry documentation claim (pdd.pdf, page 19); Upper thresholds near NDVI saturation: share of 2022 project pixels with qm >= 0.75 that also have raw NDVI >= 0.85 is 44.12% (68,656 / 155,620); Reference ring non-stationarity: raw ring p5 in 2019 vs 2022 is 0.3937 vs 0.2931; Dry-season QC-pass scenes per year read from qc_scenes.csv: {'2019': 8, '2020': 11, '2021': 8, '2022': 11}; Without ring normalisation the band is [1122.50, 1620.79] ha (detection limit 13.65%); status unchanged.",
+  "demo": false
+}

@@ -1,0 +1,18 @@
+{
+  "project_id": "demo",
+  "registry": "verra",
+  "methodology": "VM0007",
+  "claimed_area_ha": 12500.0,
+  "reporting_period_start": "2020-01-01",
+  "reporting_period_end": "2023-12-31",
+  "claimed_canopy_change_pct": 2.5,
+  "credits_issued": 150000,
+  "boundary_path": "data/projects/demo/boundary.geojson",
+  "source_pages": {
+    "project_id": 1,
+    "claimed_area_ha": 4,
+    "reporting_period": 5,
+    "claimed_canopy_change_pct": 12,
+    "credits_issued": 18
+  }
+}

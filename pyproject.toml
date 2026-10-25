@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "carbonverify"
+version = "0.1.0"
+description = "Remote sensing verification pipeline for carbon-offset project claims"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "CarbonVerify Team"}
+]
+dependencies = [
+    "pydantic>=2.0.0",
+    "pyyaml>=6.0",
+    "jinja2>=3.0.0",
+    "pymupdf>=1.23.0",
+    "python-dateutil>=2.8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+]
+app = [
+    "streamlit>=1.30.0",
+    "folium>=0.15.0",
+    "streamlit-folium>=0.16.0",
+]
+
+[project.scripts]
+carbonverify = "carbonverify.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]

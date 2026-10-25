@@ -1,0 +1,22 @@
+[
+  {
+    "page": 1,
+    "text": "VERIFIED CARBON STANDARD PROJECT DESCRIPTION (PDD)\nProject Name: Acre Native Forest Conservation and REDD+ Project\nProject ID: VCS-1396\nStandard Registry: Verified Carbon Standard (Verra)\nProject Proponent: Amazonian BioCarbon Ventures Ltd.\nCountry: Brazil\nRegion: State of Acre, Amazon Basin\nDocument Version: 1.2\nSubmission Date: 2024-02-15\n"
+  },
+  {
+    "page": 2,
+    "text": "APPLIED METHODOLOGY AND SECTORAL SCOPE\nMethodology: VM0007 REDD+ Methodology Framework (Version 1.6)\nSectoral Scope: 14 (Agriculture, Forestry, and Other Land Use - AFOLU)\nApplicability Conditions:\nThe project activity meets all applicability conditions under VM0007\nfor avoided unplanned deforestation in tropical dense rainforests.\n"
+  },
+  {
+    "page": 3,
+    "text": "PROJECT BOUNDARY AND ACCOUNTING AREA\nGeographic Location: Southwestern Amazon, Acre, Brazil.\nTotal Project Accounting Area: The project boundary encompasses a\nverified total area of 18,500 hectares of primary tropical moist forest.\nGeographic Coordinates: Upper left: -70.50, -9.20; Lower right: -70.40, -9.30.\nThe spatial boundary is defined in boundary.geojson.\n"
+  },
+  {
+    "page": 4,
+    "text": "VERIFICATION AND MONITORING REPORTING PERIOD\nVerification Reporting Period:\nMonitoring Period Start Date: 2021-01-01\nMonitoring Period End Date: 2023-12-31\nTotal Duration: 36 calendar months.\nAll baseline deforestation models and carbon stock measurements have been\ncompleted for this specific reporting interval.\n"
+  },
+  {
+    "page": 5,
+    "text": "CREDIT ISSUANCE AND CANOPY MONITORING RESULTS\nNet Emission Reductions:\nTotal Credits Issued: 340,000 VCUs (Verified Carbon Units)\nrequested for issuance for the 2021-2023 reporting period.\nRemote Sensing Canopy Monitoring:\nCanopy Cover Change: The project monitoring team observed a\nclaimed canopy change of +3.2% across the project accounting area\nrelative to baseline degradation.\n"
+  }
+]

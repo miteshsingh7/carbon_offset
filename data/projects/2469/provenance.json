@@ -1,0 +1,46 @@
+{
+  "project_id": "2469",
+  "project_name": "Afforestation and restoration of degraded forests in Eastern Paraguay or Forestal Azul Carbon Project",
+  "country": "Paraguay",
+  "registry": "Verra (VCS)",
+  "retrieved_via": "Headless Chromium browser (public project page)",
+  "retrieval_date": "2026-10-08",
+  "documents": [
+    {
+      "file": "docs/pdd.pdf",
+      "document_title": "VCS Project Description (2023-03-01 VCS Joint PDD FASA_ver 3_clean.pdf)",
+      "source_url": "https://registry.verra.org/verra/public/program/VCS/projects/2469",
+      "download_date": "2026-10-08",
+      "file_size_bytes": 5908494,
+      "sha256": "7d1149d920ee0a9a8a667200505642314be3f52a259dba5d1a7a1873905be567",
+      "page_count": 115,
+      "avg_chars_per_page": 1669.0
+    },
+    {
+      "file": "docs/monitoring_report.pdf",
+      "document_title": "VCS Monitoring Report (20240327 Monitoring Report FASA_CC.pdf)",
+      "source_url": "https://registry.verra.org/verra/public/program/VCS/projects/2469",
+      "download_date": "2026-10-08",
+      "file_size_bytes": 1465443,
+      "sha256": "46d43884d90b48b66d7f5ccf363bc78e03e33ff9e0932883612cbd1c1a83bb54",
+      "page_count": 54,
+      "avg_chars_per_page": 1536.0
+    },
+    {
+      "file": "boundary.kml",
+      "document_title": "Project Boundary (KML File) (FASA_first_instc_out_bound.kml)",
+      "source_url": "https://registry.verra.org/verra/public/program/VCS/projects/2469",
+      "download_date": "2026-10-08",
+      "file_size_bytes": 516755,
+      "sha256": "8c735b7f9fea5c24b07bf6370f806264c574cf1c27d58328ef04c482b21a3dd5"
+    },
+    {
+      "file": "boundary.geojson",
+      "document_title": "Converted Project Boundary GeoJSON (EPSG:4326)",
+      "source_url": "Derived from FASA_first_instc_out_bound.kml",
+      "download_date": "2026-10-08",
+      "file_size_bytes": 1348807,
+      "sha256": "2e10c403937f8dd3fae6e0a3ee9378f083d599509c8c99521fea59bbeb59328c"
+    }
+  ]
+}
