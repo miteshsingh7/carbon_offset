@@ -107,6 +107,20 @@ function updateShell() {
   if (footerHashes) {
     footerHashes.textContent = `${projectData.recorded_files_count || 0} ${copy.footer?.files_recorded_suffix || ""}`;
   }
+
+  // Sidebar Nav Labels from copy.json
+  const navLblOverview = document.getElementById("nav-lbl-overview");
+  if (navLblOverview && copy.nav?.overview) navLblOverview.textContent = copy.nav.overview;
+  const navLblClaims = document.getElementById("nav-lbl-claims");
+  if (navLblClaims && copy.nav?.claims) navLblClaims.textContent = copy.nav.claims;
+  const navLblArea = document.getElementById("nav-lbl-area");
+  if (navLblArea && copy.nav?.area) navLblArea.textContent = copy.nav.area;
+  const navLblImagery = document.getElementById("nav-lbl-imagery");
+  if (navLblImagery && copy.nav?.imagery) navLblImagery.textContent = copy.nav.imagery;
+  const navLblCanopy = document.getElementById("nav-lbl-canopy");
+  if (navLblCanopy && copy.nav?.canopy) navLblCanopy.textContent = copy.nav.canopy;
+  const navLblLimitations = document.getElementById("nav-lbl-limitations");
+  if (navLblLimitations && copy.nav?.limitations) navLblLimitations.textContent = copy.nav.limitations;
 }
 
 // 4. Hash Routing
@@ -120,7 +134,7 @@ function setupHashRouting() {
 function renderRoute() {
   if (!projectData) return;
 
-  const hash = window.location.hash || "#/overview";
+  const hash = window.location.hash ? window.location.hash : "#/overview";
   const bcPage = document.getElementById("breadcrumb-page");
 
   // Highlight active nav link
@@ -146,6 +160,15 @@ function renderRoute() {
   } else if (hash === "#/area") {
     if (bcPage) bcPage.textContent = copy.nav?.area || copy.missing_value;
     renderAreaTest(container);
+  } else if (hash === "#/imagery") {
+    if (bcPage) bcPage.textContent = copy.nav?.imagery || copy.missing_value;
+    renderImagery(container);
+  } else if (hash === "#/canopy") {
+    if (bcPage) bcPage.textContent = copy.nav?.canopy || copy.missing_value;
+    renderCanopy(container);
+  } else if (hash === "#/limitations") {
+    if (bcPage) bcPage.textContent = copy.nav?.limitations || copy.missing_value;
+    renderLimitations(container);
   } else {
     if (bcPage) bcPage.textContent = copy.nav?.module_preview || copy.missing_value;
     renderComingSoon(container);
@@ -1045,7 +1068,1012 @@ function renderComingSoon(container) {
   `;
 }
 
-// 10. Evidence Drawer Functions
+// 8. Imagery Quality View
+function renderImagery(container) {
+  const d = projectData;
+  const img = d.imagery;
+  const imCopy = copy.imagery;
+
+  const funnel = img?.funnel;
+  const exclCounts = img?.exclusion_counts_by_reason;
+  const dryCounts = img?.dry_season_qc_pass_per_year;
+  const timeSeries = img?.time_series || [];
+  const exclusionsLog = img?.exclusions_log || [];
+  const ingestDates = img?.ingest_excluded_dates || [];
+
+  // Funnel Step List
+  const funnelKeys = ["fetched", "excluded_ingest", "in_timeseries", "excluded_qc", "passed"];
+  const funnelHtml = funnelKeys.map((k) => {
+    const lbl = imCopy?.funnel_steps?.[k] || copy.missing_value;
+    const val = funnel && funnel[k] !== null && funnel[k] !== undefined ? fmt(funnel[k], 0) : copy.missing_value;
+    return `
+      <div class="p-4 rounded-xl bg-surface-container border border-outline-variant flex-1 min-w-[140px]">
+        <div class="text-xs uppercase tracking-wider text-outline mb-1 font-semibold">${lbl}</div>
+        <div class="text-2xl font-bold font-mono text-on-surface">${val}</div>
+      </div>
+    `;
+  }).join("");
+
+  // Exclusion Reasons Table
+  let reasonsRows = "";
+  const exclList = Array.isArray(exclCounts) ? exclCounts : [];
+  if (exclList.length > 0) {
+    const rowsHtml = exclList.map((item) => {
+      const flags = Array.isArray(item.flags) ? item.flags : (item.flags ? [item.flags] : []);
+      const label = flags.map((f) => (imCopy?.reasons && imCopy.reasons[f]) ? imCopy.reasons[f] : f).join(" + ");
+      return `
+        <tr class="border-b border-outline-variant/40 hover:bg-surface-high/50">
+          <td class="py-2.5 px-3 text-xs text-on-surface">${label}</td>
+          <td class="py-2.5 px-3 font-mono text-xs text-right text-on-surface">${fmt(item.count, 0)}</td>
+        </tr>
+      `;
+    }).join("");
+
+    const totalVal = funnel && funnel.excluded_qc !== null && funnel.excluded_qc !== undefined ? fmt(funnel.excluded_qc, 0) : copy.missing_value;
+    const totalRow = `
+      <tr class="border-t-2 border-outline-variant font-bold bg-surface-container/50">
+        <td class="py-2.5 px-3 text-xs text-on-surface font-semibold">${imCopy?.reasons_total_label || copy.missing_value}</td>
+        <td class="py-2.5 px-3 font-mono text-xs text-right text-on-surface">${totalVal}</td>
+      </tr>
+    `;
+    reasonsRows = rowsHtml + totalRow;
+  } else {
+    reasonsRows = `
+      <tr>
+        <td colspan="2" class="py-4 text-center text-xs text-outline">${copy.missing_value}</td>
+      </tr>
+    `;
+  }
+
+  // Dry Season Counts Table
+  let dryRows = "";
+  if (dryCounts && Object.keys(dryCounts).length > 0) {
+    dryRows = Object.entries(dryCounts).sort().map(([yr, cnt]) => {
+      return `
+        <tr class="border-b border-outline-variant/40 hover:bg-surface-high/50">
+          <td class="py-2.5 px-3 font-mono font-medium text-xs text-on-surface">${yr}</td>
+          <td class="py-2.5 px-3 font-mono text-xs text-right text-primary">${fmt(cnt, 0)}</td>
+        </tr>
+      `;
+    }).join("");
+  } else {
+    dryRows = `
+      <tr>
+        <td colspan="2" class="py-4 text-center text-xs text-outline">${copy.missing_value}</td>
+      </tr>
+    `;
+  }
+
+  // Time-Series SVG Chart
+  const chartSvg = renderNDVITimeSeriesSVG(timeSeries, img?.reporting_period_start, img?.reporting_period_end);
+
+  // Exclusions Log Table
+  let logRows = "";
+  if (exclusionsLog && exclusionsLog.length > 0) {
+    logRows = exclusionsLog.map((item) => {
+      return `
+        <tr class="border-b border-outline-variant/30 hover:bg-surface-high/40">
+          <td class="py-2 px-3 font-mono text-xs text-on-surface whitespace-nowrap">${item.date || copy.missing_value}</td>
+          <td class="py-2 px-3 font-mono text-xs text-secondary whitespace-nowrap">${item.scene_id || copy.missing_value}</td>
+          <td class="py-2 px-3 font-mono text-xs text-outline">${item.reason || copy.missing_value}</td>
+        </tr>
+      `;
+    }).join("");
+  } else {
+    logRows = `
+      <tr>
+        <td colspan="3" class="py-4 text-center text-xs text-outline">${imCopy?.no_exclusions || copy.missing_value}</td>
+      </tr>
+    `;
+  }
+
+  // Ingest-excluded Dates Tags
+  let ingestDatesHtml = "";
+  if (ingestDates && ingestDates.length > 0) {
+    const badges = ingestDates.map((dt) => `<span class="px-2 py-0.5 rounded bg-surface-high text-xs font-mono text-on-surface border border-outline-variant">${dt}</span>`).join(" ");
+    ingestDatesHtml = `
+      <div class="mt-4 pt-3 border-t border-outline-variant">
+        <div class="text-xs text-outline mb-1.5">${imCopy?.ingest_dates_desc || copy.missing_value}</div>
+        <div class="flex flex-wrap gap-1.5">${badges}</div>
+      </div>
+    `;
+  }
+
+  container.innerHTML = `
+    <div class="space-y-6">
+      <div class="flex flex-col gap-1">
+        <h2 class="text-2xl font-bold tracking-tight text-on-surface">${imCopy?.title || copy.missing_value}</h2>
+        <p class="text-sm text-on-surface-variant">${imCopy?.subtitle || copy.missing_value}</p>
+      </div>
+
+      <div class="space-y-2">
+        <div class="text-xs uppercase tracking-wider text-outline font-semibold">${imCopy?.funnel_title || copy.missing_value}</div>
+        <div class="flex flex-wrap gap-3">
+          ${funnelHtml}
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 p-5 rounded-xl bg-surface-container border border-outline-variant flex flex-col">
+          <div class="mb-3">
+            <h3 class="text-base font-bold text-on-surface">${imCopy?.reasons_title || copy.missing_value}</h3>
+          </div>
+          <div class="overflow-x-auto w-full flex-1">
+            <table class="min-w-full text-left">
+              <thead>
+                <tr class="border-b border-outline-variant text-xs text-outline uppercase font-semibold">
+                  <th class="py-2 px-3">${imCopy?.reasons_desc_col || copy.missing_value}</th>
+                  <th class="py-2 px-3 text-right">${imCopy?.reasons_count_col || copy.missing_value}</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${reasonsRows}
+              </tbody>
+            </table>
+          </div>
+          ${ingestDatesHtml}
+        </div>
+
+        <div class="p-5 rounded-xl bg-surface-container border border-outline-variant flex flex-col">
+          <div class="mb-3">
+            <h3 class="text-base font-bold text-on-surface">${imCopy?.dry_season_title || copy.missing_value}</h3>
+            <p class="text-xs text-on-surface-variant mt-0.5">${imCopy?.dry_season_desc || copy.missing_value}</p>
+          </div>
+          <div class="overflow-x-auto w-full flex-1">
+            <table class="min-w-full text-left">
+              <thead>
+                <tr class="border-b border-outline-variant text-xs text-outline uppercase font-semibold">
+                  <th class="py-2 px-3">${imCopy?.year_col || copy.missing_value}</th>
+                  <th class="py-2 px-3 text-right">${imCopy?.pass_count_col || copy.missing_value}</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${dryRows}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-5 rounded-xl bg-surface-container border border-outline-variant">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mb-4">
+          <div>
+            <h3 class="text-base font-bold text-on-surface">${imCopy?.chart_title || copy.missing_value}</h3>
+            <p class="text-xs text-on-surface-variant">${imCopy?.chart_subtitle || copy.missing_value}</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-4 text-xs">
+            <div class="flex items-center space-x-1.5">
+              <span class="w-3 h-0.5 bg-[#5af0b3] inline-block"></span>
+              <span class="text-on-surface-variant">${imCopy?.chart_legend?.project || copy.missing_value}</span>
+            </div>
+            <div class="flex items-center space-x-1.5">
+              <span class="w-3 h-0.5 border-t border-dashed border-[#8ad0ea] inline-block"></span>
+              <span class="text-on-surface-variant">${imCopy?.chart_legend?.ring || copy.missing_value}</span>
+            </div>
+            <div class="flex items-center space-x-1.5">
+              <span class="w-2 h-2 rounded-full bg-[#5af0b3] inline-block"></span>
+              <span class="text-on-surface-variant">${imCopy?.chart_legend?.passed || copy.missing_value}</span>
+            </div>
+            <div class="flex items-center space-x-1.5">
+              <span class="w-2.5 h-2.5 rounded-full border border-[#5af0b3] inline-block"></span>
+              <span class="text-on-surface-variant">${imCopy?.chart_legend?.excluded || copy.missing_value}</span>
+            </div>
+            <div class="flex items-center space-x-1.5">
+              <span class="w-3 h-3 bg-[#354c41]/50 border border-[#354c41] rounded-sm inline-block"></span>
+              <span class="text-on-surface-variant">${imCopy?.chart_legend?.reporting_period || copy.missing_value}</span>
+            </div>
+          </div>
+        </div>
+        <div class="w-full overflow-x-auto">
+          ${chartSvg}
+        </div>
+      </div>
+
+      <div class="p-5 rounded-xl bg-surface-container border border-outline-variant">
+        <div class="mb-3">
+          <h3 class="text-base font-bold text-on-surface">${imCopy?.exclusions_log_title || copy.missing_value}</h3>
+          <p class="text-xs text-on-surface-variant">${imCopy?.exclusions_log_desc || copy.missing_value}</p>
+        </div>
+        <div class="overflow-x-auto max-h-80 overflow-y-auto w-full border border-outline-variant rounded-lg">
+          <table class="min-w-full text-left">
+            <thead class="sticky top-0 bg-surface-high z-10">
+              <tr class="border-b border-outline-variant text-xs text-outline uppercase font-semibold">
+                <th class="py-2.5 px-3">${imCopy?.log_cols?.date || copy.missing_value}</th>
+                <th class="py-2.5 px-3">${imCopy?.log_cols?.scene_id || copy.missing_value}</th>
+                <th class="py-2.5 px-3">${imCopy?.log_cols?.reason || copy.missing_value}</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${logRows}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderNDVITimeSeriesSVG(ts, periodStart, periodEnd) {
+  if (!ts || ts.length < 2) {
+    return `<div class="text-center py-12 text-xs text-outline">${copy.missing_value}</div>`;
+  }
+
+  const parsed = [];
+  ts.forEach((pt) => {
+    if (!pt.date) return;
+    const t = Date.parse(pt.date);
+    if (isNaN(t)) return;
+    parsed.push({
+      dateStr: pt.date,
+      time: t,
+      pNdvi: pt.project_ndvi,
+      rNdvi: pt.ring_ndvi,
+      pass: pt.pass,
+    });
+  });
+
+  if (parsed.length < 2) {
+    return `<div class="text-center py-12 text-xs text-outline">${copy.missing_value}</div>`;
+  }
+
+  parsed.sort((a, b) => a.time - b.time);
+
+  const svgW = 860, svgH = 260;
+  const padL = 55, padR = 30, padT = 25, padB = 35;
+
+  const minT = parsed[0].time;
+  const maxT = parsed[parsed.length - 1].time;
+
+  let yMin = 0.2, yMax = 1.0;
+  const allVals = [];
+  parsed.forEach((p) => {
+    if (p.pNdvi !== null && p.pNdvi !== undefined) allVals.push(p.pNdvi);
+    if (p.rNdvi !== null && p.rNdvi !== undefined) allVals.push(p.rNdvi);
+  });
+  if (allVals.length > 0) {
+    const rawMin = Math.min(...allVals);
+    const rawMax = Math.max(...allVals);
+    yMin = Math.max(0.0, Math.floor((rawMin - 0.05) * 10) / 10);
+    yMax = Math.min(1.0, Math.ceil((rawMax + 0.05) * 10) / 10);
+  }
+  if (yMin >= yMax) {
+    yMin = 0.0;
+    yMax = 1.0;
+  }
+
+  const scaleX = (t) => padL + ((t - minT) / (maxT - minT)) * (svgW - padL - padR);
+  const scaleY = (v) => svgH - padB - ((v - yMin) / (yMax - yMin)) * (svgH - padT - padB);
+
+  let periodShading = "";
+  if (periodStart && periodEnd) {
+    const tS = Date.parse(periodStart);
+    const tE = Date.parse(periodEnd);
+    if (!isNaN(tS) && !isNaN(tE)) {
+      const x1 = Math.max(padL, scaleX(tS));
+      const x2 = Math.min(svgW - padR, scaleX(tE));
+      if (x2 > x1) {
+        periodShading = `
+          <rect x="${x1}" y="${padT}" width="${x2 - x1}" height="${svgH - padT - padB}" fill="#354c41" fill-opacity="0.35" />
+          <line x1="${x1}" y1="${padT}" x2="${x1}" y2="${svgH - padB}" stroke="#354c41" stroke-dasharray="2,2" />
+          <line x1="${x2}" y1="${padT}" x2="${x2}" y2="${svgH - padB}" stroke="#354c41" stroke-dasharray="2,2" />
+        `;
+      }
+    }
+  }
+
+  const yTicks = 5;
+  let yAxisHtml = "";
+  for (let i = 0; i <= yTicks; i++) {
+    const val = yMin + (i / yTicks) * (yMax - yMin);
+    const y = scaleY(val);
+    yAxisHtml += `
+      <line x1="${padL}" y1="${y}" x2="${svgW - padR}" y2="${y}" stroke="#262b2a" stroke-dasharray="3,3" />
+      <text x="${padL - 10}" y="${y + 4}" text-anchor="end" font-size="10" fill="#88938c" font-family="monospace">${val.toFixed(2)}</text>
+    `;
+  }
+  const yAxisTitle = copy.imagery?.chart_axes?.y_label || copy.missing_value;
+  const yAxisLabelHtml = `
+    <text x="${15}" y="${padT + (svgH - padT - padB) / 2}" text-anchor="middle" transform="rotate(-90 15 ${padT + (svgH - padT - padB) / 2})" font-size="10" fill="#88938c" font-family="sans-serif">${yAxisTitle}</text>
+  `;
+
+  let xAxisHtml = "";
+  const yearSet = new Set();
+  parsed.forEach((p) => {
+    const yr = p.dateStr.slice(0, 4);
+    if (!yearSet.has(yr)) {
+      yearSet.add(yr);
+      const x = scaleX(p.time);
+      xAxisHtml += `
+        <line x1="${x}" y1="${svgH - padB}" x2="${x}" y2="${svgH - padB + 5}" stroke="#3c4a42" />
+        <text x="${x}" y="${svgH - padB + 18}" text-anchor="middle" font-size="10" fill="#88938c" font-family="monospace">${yr}</text>
+      `;
+    }
+  });
+
+  let ringPath = "";
+  parsed.forEach((p) => {
+    if (p.pass && p.rNdvi !== null && p.rNdvi !== undefined) {
+      const x = scaleX(p.time);
+      const y = scaleY(p.rNdvi);
+      ringPath += ringPath === "" ? `M ${x.toFixed(1)} ${y.toFixed(1)}` : ` L ${x.toFixed(1)} ${y.toFixed(1)}`;
+    }
+  });
+
+  let projPath = "";
+  let markersHtml = "";
+  parsed.forEach((p) => {
+    if (p.pNdvi !== null && p.pNdvi !== undefined) {
+      const x = scaleX(p.time);
+      const y = scaleY(p.pNdvi);
+      if (p.pass) {
+        projPath += projPath === "" ? `M ${x.toFixed(1)} ${y.toFixed(1)}` : ` L ${x.toFixed(1)} ${y.toFixed(1)}`;
+        markersHtml += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.5" fill="#5af0b3" />`;
+      } else {
+        markersHtml += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" fill="none" stroke="#5af0b3" stroke-width="1.5" />`;
+      }
+    }
+  });
+
+  return `
+    <svg viewBox="0 0 ${svgW} ${svgH}" class="w-full h-auto max-h-[320px] select-none">
+      ${periodShading}
+      ${yAxisHtml}
+      ${yAxisLabelHtml}
+      <line x1="${padL}" y1="${svgH - padB}" x2="${svgW - padR}" y2="${svgH - padB}" stroke="#3c4a42" />
+      ${xAxisHtml}
+      ${ringPath !== "" ? `<path d="${ringPath}" fill="none" stroke="#8ad0ea" stroke-width="1.5" stroke-dasharray="4,4" />` : ""}
+      ${projPath !== "" ? `<path d="${projPath}" fill="none" stroke="#5af0b3" stroke-width="2" />` : ""}
+      ${markersHtml}
+    </svg>
+  `;
+}
+
+// 9. Canopy and Biomass View
+function renderCanopy(container) {
+  const d = projectData;
+  const can = d.canopy;
+  const canCopy = copy.canopy;
+
+  if (!can) {
+    container.innerHTML = `
+      <div class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h2 class="text-2xl font-bold tracking-tight text-on-surface">${canCopy?.title || copy.missing_value}</h2>
+          <p class="text-sm text-on-surface-variant">${canCopy?.subtitle || copy.missing_value}</p>
+        </div>
+        <div class="p-8 rounded-xl bg-surface-container border border-outline-variant text-center">
+          <p class="text-sm text-outline">${copy.missing_value}</p>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  const thresholds = can?.thresholds || [];
+  const years = can?.years || [];
+  const tbl = can?.table || {};
+  const primaryT = can?.primary_threshold;
+  const bioByYr = can?.biomass_proxy_by_year || {};
+  const ringMedians = can?.reference_buffer_raw_medians || {};
+
+  const primaryChange = can?.canopy_change_pct !== null && can?.canopy_change_pct !== undefined ? `${fmt(can.canopy_change_pct, 1)}%` : copy.missing_value;
+  let rangeStr = copy.missing_value;
+  if (can?.canopy_change_grid_range && Array.isArray(can.canopy_change_grid_range) && can.canopy_change_grid_range.length === 2) {
+    rangeStr = `${fmt(can.canopy_change_grid_range[0], 1)}% – ${fmt(can.canopy_change_grid_range[1], 1)}%`;
+  }
+  const bioChange = can?.biomass_proxy_change_pct !== null && can?.biomass_proxy_change_pct !== undefined ? `${fmt(can.biomass_proxy_change_pct, 1)}%` : copy.missing_value;
+
+  const endYear = can?.end_year || (can?.years && can.years.length > 0 ? can.years[can.years.length - 1] : "");
+  const shareVal = can?.saturation_share_pct !== null && can?.saturation_share_pct !== undefined ? fmt(can.saturation_share_pct, 1) : "";
+  const satLabelTemplate = canCopy?.stats?.saturation_share || canCopy?.saturation_note || "";
+  const satLabel = satLabelTemplate
+    .replace("{end_year}", endYear)
+    .replace("{year}", endYear)
+    .replace("{share}", shareVal);
+
+  let satDisplayVal = copy.missing_value;
+  if (can?.saturation_pixel_count !== null && can?.saturation_pixel_count !== undefined && can?.saturation_total_count !== null && can?.saturation_total_count !== undefined) {
+    const tmpl = canCopy?.saturation_count_template;
+    satDisplayVal = tmpl ? tmpl.replace("{n}", fmt(can.saturation_pixel_count, 0)).replace("{N}", fmt(can.saturation_total_count, 0)) : copy.missing_value;
+  } else if (can?.saturation_share_pct !== null && can?.saturation_share_pct !== undefined) {
+    satDisplayVal = `${fmt(can.saturation_share_pct, 1)}%`;
+  }
+
+  let tableHeaderCols = "";
+  years.forEach((yr) => {
+    tableHeaderCols += `
+      <th class="py-2.5 px-3 text-right font-medium">${yr} ${copy.units?.ha || copy.missing_value}</th>
+      <th class="py-2.5 px-3 text-right font-medium">${yr} ${canCopy?.share_suffix || copy.missing_value}</th>
+    `;
+  });
+
+  let tableRows = "";
+  if (thresholds.length > 0 && years.length > 0) {
+    thresholds.forEach((t) => {
+      let cells = "";
+      years.forEach((yr) => {
+        const cell = tbl[t]?.[yr];
+        const aVal = cell?.area_ha !== null && cell?.area_ha !== undefined ? fmt(cell.area_ha, 1) : copy.missing_value;
+        const sVal = cell?.share_pct !== null && cell?.share_pct !== undefined ? `${fmt(cell.share_pct, 1)}%` : copy.missing_value;
+        cells += `
+          <td class="py-2.5 px-3 text-right font-mono text-xs text-on-surface">${aVal}</td>
+          <td class="py-2.5 px-3 text-right font-mono text-xs text-secondary">${sVal}</td>
+        `;
+      });
+      tableRows += `
+        <tr class="border-b border-outline-variant/40 hover:bg-surface-high/50">
+          <td class="py-2.5 px-3 font-mono font-semibold text-xs text-primary">${t}</td>
+          ${cells}
+        </tr>
+      `;
+    });
+  } else {
+    tableRows = `
+      <tr>
+        <td colspan="${1 + years.length * 2}" class="py-4 text-center text-xs text-outline">${copy.missing_value}</td>
+      </tr>
+    `;
+  }
+
+  const barChartSvg = renderCanopyBarSVG(tbl, primaryT, years);
+  const lineChartSvg = renderBiomassLineSVG(bioByYr, years);
+
+  let ringRows = "";
+  if (years.length > 0 && Object.keys(ringMedians).length > 0) {
+    ringRows = years.map((yr) => {
+      const v = ringMedians[yr] !== null && ringMedians[yr] !== undefined ? fmt(ringMedians[yr], 4) : copy.missing_value;
+      return `
+        <div class="p-3 rounded-lg bg-surface-high border border-outline-variant/50 flex flex-col items-center flex-1 min-w-[90px]">
+          <span class="text-xs text-outline font-mono mb-1">${yr}</span>
+          <span class="text-sm font-bold font-mono text-tertiary">${v}</span>
+        </div>
+      `;
+    }).join("");
+  } else {
+    ringRows = `<div class="text-xs text-outline">${copy.missing_value}</div>`;
+  }
+  const ringChangeStr = can?.reference_buffer_change_pct !== null && can?.reference_buffer_change_pct !== undefined ? `${fmt(can.reference_buffer_change_pct, 1)}%` : copy.missing_value;
+
+  const notesList = [];
+  if (can?.claimed_canopy_change_pct === null || can?.claimed_canopy_change_pct === undefined) {
+    if (canCopy?.unscored_note) {
+      notesList.push(canCopy.unscored_note);
+    }
+  }
+  if (can?.baseline_year && canCopy?.pre_baseline_note) {
+    notesList.push(canCopy.pre_baseline_note.replace("{baseline_year}", can.baseline_year));
+  }
+  if (Array.isArray(canCopy?.notes)) {
+    canCopy.notes.forEach((n) => notesList.push(n));
+  }
+  if (can?.saturation_share_pct !== null && can?.saturation_share_pct !== undefined && canCopy?.saturation_note) {
+    notesList.push(
+      canCopy.saturation_note
+        .replace("{end_year}", endYear)
+        .replace("{year}", endYear)
+        .replace("{share}", shareVal)
+    );
+  }
+  const notesHtml = notesList.map((note) => `
+    <li class="flex items-start gap-2">
+      <span class="text-secondary select-none">&bull;</span>
+      <span>${note}</span>
+    </li>
+  `).join("");
+
+  const barTitleTemplate = canCopy?.chart_bar_title || copy.missing_value;
+  const barTitle = barTitleTemplate.replace("{t}", primaryT !== null && primaryT !== undefined ? primaryT : copy.missing_value);
+
+  container.innerHTML = `
+    <div class="space-y-6">
+      <div class="flex flex-col gap-1">
+        <h2 class="text-2xl font-bold tracking-tight text-on-surface">${canCopy?.title || copy.missing_value}</h2>
+        <p class="text-sm text-on-surface-variant">${canCopy?.subtitle || copy.missing_value}</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="p-4 rounded-xl bg-surface-container border border-outline-variant">
+          <div class="text-xs uppercase tracking-wider text-outline mb-1 font-semibold">${canCopy?.stats?.change_primary || copy.missing_value}</div>
+          <div class="text-2xl font-bold font-mono text-primary">${primaryChange}</div>
+        </div>
+        <div class="p-4 rounded-xl bg-surface-container border border-outline-variant">
+          <div class="text-xs uppercase tracking-wider text-outline mb-1 font-semibold">${canCopy?.stats?.change_range || copy.missing_value}</div>
+          <div class="text-lg font-bold font-mono text-on-surface">${rangeStr}</div>
+        </div>
+        <div class="p-4 rounded-xl bg-surface-container border border-outline-variant">
+          <div class="text-xs uppercase tracking-wider text-outline mb-1 font-semibold">${canCopy?.stats?.biomass_change || copy.missing_value}</div>
+          <div class="text-2xl font-bold font-mono text-tertiary">${bioChange}</div>
+        </div>
+        <div class="p-4 rounded-xl bg-surface-container border border-outline-variant">
+          <div class="text-xs uppercase tracking-wider text-outline mb-1 font-semibold">${satLabel}</div>
+          <div class="text-2xl font-bold font-mono text-secondary">${satDisplayVal}</div>
+        </div>
+      </div>
+
+      <div class="p-5 rounded-xl bg-surface-container border border-outline-variant">
+        <div class="mb-3">
+          <h3 class="text-base font-bold text-on-surface">${canCopy?.table_title || copy.missing_value}</h3>
+          <p class="text-xs text-on-surface-variant">${canCopy?.table_desc || copy.missing_value}</p>
+        </div>
+        <div class="overflow-x-auto w-full">
+          <table class="min-w-full text-left">
+            <thead>
+              <tr class="border-b border-outline-variant text-xs text-outline uppercase font-semibold">
+                <th class="py-2.5 px-3">${canCopy?.threshold_col || copy.missing_value}</th>
+                ${tableHeaderCols}
+              </tr>
+            </thead>
+            <tbody>
+              ${tableRows}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="p-5 rounded-xl bg-surface-container border border-outline-variant flex flex-col">
+          <div class="mb-3">
+            <h3 class="text-base font-bold text-on-surface">${barTitle}</h3>
+            <p class="text-xs text-on-surface-variant">${canCopy?.chart_bar_subtitle || copy.missing_value}</p>
+          </div>
+          <div class="w-full overflow-x-auto flex-1 flex items-center justify-center">
+            ${barChartSvg}
+          </div>
+        </div>
+
+        <div class="p-5 rounded-xl bg-surface-container border border-outline-variant flex flex-col">
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <div>
+              <h3 class="text-base font-bold text-on-surface">${canCopy?.chart_line_title || copy.missing_value}</h3>
+              <p class="text-xs text-on-surface-variant">${canCopy?.chart_line_subtitle || copy.missing_value}</p>
+            </div>
+            <div class="flex items-center gap-3 text-xs">
+              <div class="flex items-center space-x-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#5af0b3] inline-block"></span>
+                <span class="text-on-surface-variant">${canCopy?.chart_legend?.mean_ndvi || copy.missing_value}</span>
+              </div>
+              <div class="flex items-center space-x-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#8ad0ea] inline-block"></span>
+                <span class="text-on-surface-variant">${canCopy?.chart_legend?.p90_ndvi || copy.missing_value}</span>
+              </div>
+            </div>
+          </div>
+          <div class="w-full overflow-x-auto flex-1 flex items-center justify-center">
+            ${lineChartSvg}
+          </div>
+        </div>
+      </div>
+
+      <div class="p-5 rounded-xl bg-surface-container border border-outline-variant">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-3">
+          <div>
+            <h3 class="text-base font-bold text-on-surface">${canCopy?.reference_title || copy.missing_value}</h3>
+            <p class="text-xs text-outline italic">${canCopy?.reference_label || copy.missing_value}</p>
+          </div>
+          <div class="text-xs font-mono text-on-surface-variant">
+            <span>${canCopy?.reference_change || copy.missing_value}: </span>
+            <span class="font-bold text-tertiary">${ringChangeStr}</span>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          ${ringRows}
+        </div>
+      </div>
+
+      <div class="p-5 rounded-xl bg-surface-container border border-outline-variant">
+        <h3 class="text-base font-bold text-on-surface mb-3">${canCopy?.notes_title || copy.missing_value}</h3>
+        <ul class="text-xs text-on-surface-variant space-y-2 leading-relaxed">
+          ${notesHtml}
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+function renderCanopyBarSVG(tbl, primaryT, years) {
+  if (!tbl || !primaryT || !years || years.length === 0 || !tbl[primaryT]) {
+    return `<div class="text-center py-12 text-xs text-outline">${copy.missing_value}</div>`;
+  }
+
+  const items = [];
+  years.forEach((yr) => {
+    const a = tbl[primaryT]?.[yr]?.area_ha;
+    if (a !== null && a !== undefined) {
+      items.push({ year: yr, area: a });
+    }
+  });
+
+  if (items.length === 0) {
+    return `<div class="text-center py-12 text-xs text-outline">${copy.missing_value}</div>`;
+  }
+
+  const svgW = 420, svgH = 220;
+  const padL = 50, padR = 25, padT = 30, padB = 35;
+
+  const maxArea = Math.max(...items.map((i) => i.area)) * 1.15;
+  const scaleY = (v) => svgH - padB - (v / maxArea) * (svgH - padT - padB);
+
+  const yTicks = 4;
+  let yAxisHtml = "";
+  for (let i = 0; i <= yTicks; i++) {
+    const val = (i / yTicks) * maxArea;
+    const y = scaleY(val);
+    yAxisHtml += `
+      <line x1="${padL}" y1="${y}" x2="${svgW - padR}" y2="${y}" stroke="#262b2a" stroke-dasharray="3,3" />
+      <text x="${padL - 8}" y="${y + 4}" text-anchor="end" font-size="10" fill="#88938c" font-family="monospace">${val.toFixed(0)}</text>
+    `;
+  }
+
+  const availW = svgW - padL - padR;
+  const barW = Math.min(48, (availW / items.length) * 0.55);
+  let barsHtml = "";
+
+  items.forEach((item, idx) => {
+    const cx = padL + ((idx + 0.5) / items.length) * availW;
+    const x = cx - barW / 2;
+    const y = scaleY(item.area);
+    const h = (svgH - padB) - y;
+    barsHtml += `
+      <rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${h.toFixed(1)}" fill="#5af0b3" rx="3" />
+      <text x="${cx.toFixed(1)}" y="${y - 6}" text-anchor="middle" font-size="10" fill="#dee4e0" font-family="monospace">${fmt(item.area, 0)} ${copy.units?.ha || copy.missing_value}</text>
+      <text x="${cx.toFixed(1)}" y="${svgH - padB + 18}" text-anchor="middle" font-size="10" fill="#88938c" font-family="monospace">${item.year}</text>
+    `;
+  });
+
+  return `
+    <svg viewBox="0 0 ${svgW} ${svgH}" class="w-full h-auto max-h-[220px] select-none">
+      ${yAxisHtml}
+      <line x1="${padL}" y1="${svgH - padB}" x2="${svgW - padR}" y2="${svgH - padB}" stroke="#3c4a42" />
+      ${barsHtml}
+    </svg>
+  `;
+}
+
+function renderBiomassLineSVG(bioByYr, years) {
+  if (!bioByYr || !years || years.length === 0) {
+    return `<div class="text-center py-12 text-xs text-outline">${copy.missing_value}</div>`;
+  }
+
+  const items = [];
+  years.forEach((yr) => {
+    const mean = bioByYr[yr]?.mean;
+    const p90 = bioByYr[yr]?.p90;
+    if (mean !== null && mean !== undefined && p90 !== null && p90 !== undefined) {
+      items.push({ year: yr, mean, p90 });
+    }
+  });
+
+  if (items.length < 2) {
+    return `<div class="text-center py-12 text-xs text-outline">${copy.missing_value}</div>`;
+  }
+
+  const svgW = 420, svgH = 220;
+  const padL = 45, padR = 25, padT = 25, padB = 35;
+
+  let yMin = 0.5, yMax = 1.0;
+  const allVals = [];
+  items.forEach((it) => {
+    allVals.push(it.mean, it.p90);
+  });
+  if (allVals.length > 0) {
+    const rawMin = Math.min(...allVals);
+    const rawMax = Math.max(...allVals);
+    yMin = Math.max(0.0, Math.floor((rawMin - 0.05) * 10) / 10);
+    yMax = Math.min(1.0, Math.ceil((rawMax + 0.05) * 10) / 10);
+  }
+  if (yMin >= yMax) {
+    yMin = 0.0;
+    yMax = 1.0;
+  }
+
+  const scaleY = (v) => svgH - padB - ((v - yMin) / (yMax - yMin)) * (svgH - padT - padB);
+  const availW = svgW - padL - padR;
+
+  const yTicks = 4;
+  let yAxisHtml = "";
+  for (let i = 0; i <= yTicks; i++) {
+    const val = yMin + (i / yTicks) * (yMax - yMin);
+    const y = scaleY(val);
+    yAxisHtml += `
+      <line x1="${padL}" y1="${y}" x2="${svgW - padR}" y2="${y}" stroke="#262b2a" stroke-dasharray="3,3" />
+      <text x="${padL - 8}" y="${y + 4}" text-anchor="end" font-size="10" fill="#88938c" font-family="monospace">${val.toFixed(2)}</text>
+    `;
+  }
+
+  let meanPath = "";
+  let p90Path = "";
+  let markersHtml = "";
+  let xAxisHtml = "";
+
+  items.forEach((it, idx) => {
+    const x = padL + ((idx + 0.5) / items.length) * availW;
+    const yMean = scaleY(it.mean);
+    const yP90 = scaleY(it.p90);
+
+    meanPath += idx === 0 ? `M ${x.toFixed(1)} ${yMean.toFixed(1)}` : ` L ${x.toFixed(1)} ${yMean.toFixed(1)}`;
+    p90Path += idx === 0 ? `M ${x.toFixed(1)} ${yP90.toFixed(1)}` : ` L ${x.toFixed(1)} ${yP90.toFixed(1)}`;
+
+    markersHtml += `
+      <circle cx="${x.toFixed(1)}" cy="${yMean.toFixed(1)}" r="3" fill="#5af0b3" />
+      <circle cx="${x.toFixed(1)}" cy="${yP90.toFixed(1)}" r="3" fill="#8ad0ea" />
+    `;
+
+    xAxisHtml += `
+      <line x1="${x.toFixed(1)}" y1="${svgH - padB}" x2="${x.toFixed(1)}" y2="${svgH - padB + 5}" stroke="#3c4a42" />
+      <text x="${x.toFixed(1)}" y="${svgH - padB + 18}" text-anchor="middle" font-size="10" fill="#88938c" font-family="monospace">${it.year}</text>
+    `;
+  });
+
+  return `
+    <svg viewBox="0 0 ${svgW} ${svgH}" class="w-full h-auto max-h-[220px] select-none">
+      ${yAxisHtml}
+      <line x1="${padL}" y1="${svgH - padB}" x2="${svgW - padR}" y2="${svgH - padB}" stroke="#3c4a42" />
+      ${xAxisHtml}
+      <path d="${p90Path}" fill="none" stroke="#8ad0ea" stroke-width="2" />
+      <path d="${meanPath}" fill="none" stroke="#5af0b3" stroke-width="2" />
+      ${markersHtml}
+    </svg>
+  `;
+}
+
+// 10. Limitations and Provenance View
+function renderLimitations(container) {
+  const d = projectData;
+  const lim = d.limitations;
+  const limCopy = copy.limitations;
+
+  const limitationsList = lim?.limitations || [];
+  const fileHashes = lim?.file_hashes || {};
+  const extractor = lim?.extractor;
+  const pdfSha = lim?.pdf_sha256;
+  const pdfDoc = lim?.pdf_sha256_document;
+  const imagerySrc = lim?.imagery_source;
+  const hansenHashes = lim?.hansen_file_hashes;
+  const sourceNotes = lim?.source_notes || [];
+  const thresh = lim?.thresholds;
+
+  let limItemsHtml = "";
+  if (limitationsList && limitationsList.length > 0) {
+    limItemsHtml = limitationsList.map((item, idx) => {
+      const numStr = String(idx + 1).padStart(2, "0");
+      return `
+        <div class="flex items-start gap-4 p-4 rounded-lg bg-surface-container-high/40 border border-outline-variant/30">
+          <span class="px-2 py-0.5 rounded bg-surface-high text-xs font-mono font-bold text-tertiary select-none">${numStr}</span>
+          <p class="text-xs text-on-surface leading-relaxed flex-1">${item}</p>
+        </div>
+      `;
+    }).join("");
+  } else {
+    limItemsHtml = `<div class="p-4 text-xs text-outline text-center">${copy.missing_value}</div>`;
+  }
+
+  const methodLimitationsList = Array.isArray(limCopy?.method_limitations) ? limCopy.method_limitations : [];
+  let methodLimHtml = "";
+  if (methodLimitationsList.length > 0) {
+    methodLimHtml = methodLimitationsList.map((item, idx) => {
+      const numStr = String(idx + 1).padStart(2, "0");
+      return `
+        <div class="flex items-start gap-4 p-4 rounded-lg bg-surface-container-high/40 border border-outline-variant/30">
+          <span class="px-2 py-0.5 rounded bg-surface-high text-xs font-mono font-bold text-tertiary select-none">${numStr}</span>
+          <p class="text-xs text-on-surface leading-relaxed flex-1">${item}</p>
+        </div>
+      `;
+    }).join("");
+  } else {
+    methodLimHtml = `<div class="p-4 text-xs text-outline text-center">${copy.missing_value}</div>`;
+  }
+
+  let hashRows = "";
+  if (fileHashes && Object.keys(fileHashes).length > 0) {
+    hashRows = Object.entries(fileHashes).map(([fname, fhash]) => {
+      return `
+        <tr class="border-b border-outline-variant/30 hover:bg-surface-high/40">
+          <td class="py-2.5 px-3 font-mono text-xs font-semibold text-on-surface whitespace-nowrap">${fname}</td>
+          <td class="py-2.5 px-3 font-mono text-xs text-secondary break-all select-all">${fhash}</td>
+          <td class="py-2.5 px-3 text-right whitespace-nowrap">
+            <button class="copy-hash-btn px-2.5 py-1 text-xs rounded bg-surface-high hover:bg-surface-highest border border-outline-variant text-on-surface transition-colors" data-hash="${fhash}">
+              ${limCopy?.copy_btn || copy.missing_value}
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  } else {
+    hashRows = `
+      <tr>
+        <td colspan="3" class="py-4 text-center text-xs text-outline">${copy.missing_value}</td>
+      </tr>
+    `;
+  }
+
+  let hansenRows = "";
+  if (hansenHashes && Object.keys(hansenHashes).length > 0) {
+    hansenRows = Object.entries(hansenHashes).map(([hname, hhash]) => {
+      return `
+        <tr class="border-b border-outline-variant/30 hover:bg-surface-high/40">
+          <td class="py-2.5 px-3 font-mono text-xs font-semibold text-on-surface whitespace-nowrap">${hname}</td>
+          <td class="py-2.5 px-3 font-mono text-xs text-secondary break-all select-all">${hhash}</td>
+          <td class="py-2.5 px-3 text-right whitespace-nowrap">
+            <button class="copy-hash-btn px-2.5 py-1 text-xs rounded bg-surface-high hover:bg-surface-highest border border-outline-variant text-on-surface transition-colors" data-hash="${hhash}">
+              ${limCopy?.copy_btn || copy.missing_value}
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  } else {
+    hansenRows = `
+      <tr>
+        <td colspan="3" class="py-4 text-center text-xs text-outline">${copy.missing_value}</td>
+      </tr>
+    `;
+  }
+
+  let notesHtml = "";
+  if (sourceNotes && sourceNotes.length > 0) {
+    notesHtml = sourceNotes.map((sn) => `
+      <div class="p-3 rounded-lg bg-surface-high border border-outline-variant/40 text-xs text-on-surface leading-relaxed">
+        ${sn}
+      </div>
+    `).join("");
+  } else {
+    notesHtml = `<div class="text-xs text-outline">${copy.missing_value}</div>`;
+  }
+
+  let gridTStr = copy.missing_value;
+  if (thresh?.grid_thresholds && Array.isArray(thresh.grid_thresholds)) {
+    gridTStr = thresh.grid_thresholds.map((t) => fmt(t, 2)).join(", ");
+  }
+
+  container.innerHTML = `
+    <div class="space-y-6">
+      <div class="flex flex-col gap-1">
+        <h2 class="text-2xl font-bold tracking-tight text-on-surface">${limCopy?.title || copy.missing_value}</h2>
+        <p class="text-sm text-on-surface-variant">${limCopy?.subtitle || copy.missing_value}</p>
+      </div>
+
+      <div class="p-3.5 rounded-xl bg-surface-container border border-outline-variant flex items-center gap-3">
+        <span class="text-secondary text-base select-none">ℹ️</span>
+        <p class="text-xs text-on-surface-variant leading-relaxed">
+          ${limCopy?.registry_pdf_notice || copy.missing_value}
+        </p>
+      </div>
+
+      <div class="p-5 rounded-xl bg-surface-container border border-outline-variant">
+        <div class="mb-4">
+          <h3 class="text-base font-bold text-on-surface">${limCopy?.caveats_title || copy.missing_value}</h3>
+          <p class="text-xs text-on-surface-variant mt-0.5">${limCopy?.caveats_desc || copy.missing_value}</p>
+        </div>
+        <div class="space-y-2.5">
+          ${limItemsHtml}
+        </div>
+      </div>
+
+      <div class="p-5 rounded-xl bg-surface-container border border-outline-variant">
+        <div class="mb-4">
+          <h3 class="text-base font-bold text-on-surface">${limCopy?.method_limitations_title || copy.missing_value}</h3>
+          <p class="text-xs text-on-surface-variant mt-0.5">${limCopy?.method_limitations_desc || copy.missing_value}</p>
+        </div>
+        <div class="space-y-2.5">
+          ${methodLimHtml}
+        </div>
+      </div>
+
+      <div class="p-5 rounded-xl bg-surface-container border border-outline-variant">
+        <div class="mb-3">
+          <h3 class="text-base font-bold text-on-surface">${limCopy?.hashes_title || copy.missing_value}</h3>
+          <p class="text-xs text-on-surface-variant">${limCopy?.hashes_desc || copy.missing_value}</p>
+        </div>
+        <div class="overflow-x-auto w-full border border-outline-variant rounded-lg">
+          <table class="min-w-full text-left">
+            <thead>
+              <tr class="border-b border-outline-variant bg-surface-high text-xs text-outline uppercase font-semibold">
+                <th class="py-2.5 px-3">${limCopy?.hashes_cols?.file || copy.missing_value}</th>
+                <th class="py-2.5 px-3">${limCopy?.hashes_cols?.hash || copy.missing_value}</th>
+                <th class="py-2.5 px-3 text-right">${limCopy?.hashes_cols?.action || copy.missing_value}</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${hashRows}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-5 rounded-xl bg-surface-container border border-outline-variant space-y-4">
+          <div>
+            <h3 class="text-base font-bold text-on-surface mb-1">${limCopy?.provenance_title || copy.missing_value}</h3>
+          </div>
+          <div class="space-y-3 text-xs">
+            <div>
+              <div class="text-outline uppercase font-semibold mb-0.5">${limCopy?.extractor_label || copy.missing_value}</div>
+              <div class="font-mono text-on-surface">${extractor || copy.missing_value}</div>
+            </div>
+            <div>
+              <div class="text-outline uppercase font-semibold mb-0.5">${pdfDoc ? (limCopy?.pdf_sha_label || copy.missing_value) : (limCopy?.pdf_sha_unrecorded_label || limCopy?.pdf_sha_label || copy.missing_value)}</div>
+              <div class="font-mono text-secondary break-all select-all">${pdfSha ? (pdfDoc ? `${pdfSha} (${pdfDoc})` : pdfSha) : copy.missing_value}</div>
+            </div>
+            <div>
+              <div class="text-outline uppercase font-semibold mb-0.5">${limCopy?.imagery_source_label || copy.missing_value}</div>
+              <div class="text-on-surface">${imagerySrc || copy.missing_value}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-5 rounded-xl bg-surface-container border border-outline-variant space-y-4">
+          <div>
+            <h3 class="text-base font-bold text-on-surface mb-1">${limCopy?.thresholds_label || copy.missing_value}</h3>
+          </div>
+          <div class="space-y-3 text-xs">
+            <div>
+              <div class="text-outline uppercase font-semibold mb-0.5">${limCopy?.threshold_minor || copy.missing_value}</div>
+              <div class="font-mono font-bold text-on-surface">${thresh?.minor_discrepancy_pct !== null && thresh?.minor_discrepancy_pct !== undefined ? `${fmt(thresh.minor_discrepancy_pct, 1)}%` : copy.missing_value}</div>
+            </div>
+            <div>
+              <div class="text-outline uppercase font-semibold mb-0.5">${limCopy?.threshold_major || copy.missing_value}</div>
+              <div class="font-mono font-bold text-on-surface">${thresh?.major_discrepancy_pct !== null && thresh?.major_discrepancy_pct !== undefined ? `${fmt(thresh.major_discrepancy_pct, 1)}%` : copy.missing_value}</div>
+            </div>
+            <div>
+              <div class="text-outline uppercase font-semibold mb-0.5">${limCopy?.grid_thresholds_label || copy.missing_value}</div>
+              <div class="font-mono text-primary">${gridTStr}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-5 rounded-xl bg-surface-container border border-outline-variant">
+        <div class="mb-3">
+          <h3 class="text-base font-bold text-on-surface">${limCopy?.hansen_title || copy.missing_value}</h3>
+          <p class="text-xs text-on-surface-variant">${limCopy?.hansen_desc || copy.missing_value}</p>
+        </div>
+        <div class="overflow-x-auto w-full border border-outline-variant rounded-lg">
+          <table class="min-w-full text-left">
+            <thead>
+              <tr class="border-b border-outline-variant bg-surface-high text-xs text-outline uppercase font-semibold">
+                <th class="py-2.5 px-3">${limCopy?.hashes_cols?.file || copy.missing_value}</th>
+                <th class="py-2.5 px-3">${limCopy?.hashes_cols?.hash || copy.missing_value}</th>
+                <th class="py-2.5 px-3 text-right">${limCopy?.hashes_cols?.action || copy.missing_value}</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${hansenRows}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="p-5 rounded-xl bg-surface-container border border-outline-variant">
+        <div class="mb-3">
+          <h3 class="text-base font-bold text-on-surface">${limCopy?.source_notes_title || copy.missing_value}</h3>
+          <p class="text-xs text-on-surface-variant">${limCopy?.source_notes_desc || copy.missing_value}</p>
+        </div>
+        <div class="space-y-2">
+          ${notesHtml}
+        </div>
+      </div>
+    </div>
+  `;
+
+  container.querySelectorAll(".copy-hash-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const hash = btn.getAttribute("data-hash");
+      if (hash && navigator.clipboard) {
+        navigator.clipboard.writeText(hash).then(() => {
+          const original = btn.textContent;
+          btn.textContent = limCopy?.copied_btn || copy.missing_value;
+          setTimeout(() => {
+            btn.textContent = original;
+          }, 2000);
+        }).catch((err) => {
+          console.error("Failed to copy hash:", err);
+        });
+      }
+    });
+  });
+}
+
+// 11. Evidence Drawer Functions
 function setupEvidenceDrawer() {
   const backdrop = document.getElementById("evidence-drawer-backdrop");
   const closeBtn = document.getElementById("drawer-close-btn");

@@ -192,6 +192,358 @@ def get_first_high_year_areas(
     return None
 
 
+def build_imagery_payload(
+    project_id: str,
+    output_dir: Union[str, Path] = "output",
+    data_dir: Union[str, Path] = "data/projects",
+) -> Optional[Dict[str, Any]]:
+    """Build structured imagery quality and screening payload.
+
+    Args:
+        project_id: Project identifier.
+        output_dir: Output base directory.
+        data_dir: Data base directory.
+
+    Returns:
+        Structured imagery dictionary or None if project does not exist.
+    """
+    report_data = load_report_json(output_dir, project_id)
+    if not report_data:
+        return None
+
+    # Candidate paths for qc_scenes.csv
+    qc_candidates = [
+        Path(output_dir) / project_id / "qc_scenes.csv",
+        Path(data_dir) / project_id / "imagery" / "qc_scenes.csv",
+        Path(data_dir) / project_id / "qc_scenes.csv",
+    ]
+    qc_csv_path: Optional[Path] = None
+    for cand in qc_candidates:
+        if cand.exists():
+            qc_csv_path = cand
+            break
+
+    # Candidate paths for stac_items.json
+    stac_candidates = [
+        Path(data_dir) / project_id / "imagery" / "stac_items.json",
+        Path(data_dir) / project_id / "stac_items.json",
+        Path(output_dir) / project_id / "stac_items.json",
+    ]
+    stac_path: Optional[Path] = None
+    for cand in stac_candidates:
+        if cand.exists():
+            stac_path = cand
+            break
+
+    total = 0
+    passed = 0
+    exact_counts: Dict[str, int] = {}
+    dry_season_counts: Dict[str, int] = {}
+    time_series: List[Dict[str, Any]] = []
+    exclusions_log: List[Dict[str, Any]] = []
+
+    if qc_csv_path:
+        try:
+            with open(qc_csv_path, "r", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    total += 1
+                    d_str = row.get("date", "") or ""
+                    is_pass = str(row.get("qc_pass", "")).strip().lower() in ("true", "1")
+                    reasons_raw = row.get("qc_reasons", "") or ""
+
+                    p_ndvi: Optional[float] = None
+                    r_ndvi: Optional[float] = None
+                    try:
+                        raw_p = row.get("proj_ndvi_median")
+                        if raw_p and raw_p.strip():
+                            p_ndvi = round(float(raw_p), 4)
+                    except (ValueError, TypeError):
+                        pass
+                    try:
+                        raw_r = row.get("ring_ndvi_median")
+                        if raw_r and raw_r.strip():
+                            r_ndvi = round(float(raw_r), 4)
+                    except (ValueError, TypeError):
+                        pass
+
+                    if is_pass:
+                        passed += 1
+                        if len(d_str) >= 7:
+                            try:
+                                month = int(d_str[5:7])
+                                if month in (6, 7, 8):
+                                    year_str = d_str[:4]
+                                    if year_str in dry_season_counts:
+                                        dry_season_counts[year_str] += 1
+                                    else:
+                                        dry_season_counts[year_str] = 1
+                            except ValueError:
+                                pass
+                    else:
+                        r_key = reasons_raw.strip()
+                        if not r_key:
+                            r_key = "unspecified"
+                        if r_key in exact_counts:
+                            exact_counts[r_key] += 1
+                        else:
+                            exact_counts[r_key] = 1
+                        exclusions_log.append(
+                            {
+                                "date": d_str,
+                                "scene_id": row.get("scene_id"),
+                                "reason": reasons_raw,
+                            }
+                        )
+
+                    time_series.append(
+                        {
+                            "date": d_str,
+                            "project_ndvi": p_ndvi,
+                            "ring_ndvi": r_ndvi,
+                            "pass": is_pass,
+                            "reason": reasons_raw if not is_pass else None,
+                        }
+                    )
+        except Exception as exc:
+            logger.warning("Error reading qc_scenes.csv for project '%s': %s", project_id, exc)
+
+    # Ingest-excluded dates from stac_items.json
+    ingest_excluded_dates: Optional[List[str]] = None
+    fetched_s: Optional[int] = None
+    excl_ingest: Optional[int] = None
+    if stac_path:
+        try:
+            with open(stac_path, "r", encoding="utf-8") as sf:
+                stac_items = json.load(sf)
+            if isinstance(stac_items, list):
+                stac_dates = {
+                    item["datetime"][:10]
+                    for item in stac_items
+                    if isinstance(item, dict) and "datetime" in item
+                }
+                if len(stac_dates) >= total:
+                    fetched_s = len(stac_dates)
+                    excl_ingest = fetched_s - total
+                    qc_dates = {rec["date"] for rec in time_series if rec.get("date")}
+                    diff_dates = sorted(stac_dates - qc_dates)
+                    if diff_dates:
+                        ingest_excluded_dates = diff_dates
+        except Exception as exc:
+            logger.warning("Error parsing stac_items.json for project '%s': %s", project_id, exc)
+
+    funnel: Optional[Dict[str, Optional[int]]] = None
+    if qc_csv_path:
+        funnel = {
+            "fetched": fetched_s,
+            "excluded_ingest": excl_ingest,
+            "in_timeseries": total,
+            "excluded_qc": total - passed,
+            "passed": passed,
+        }
+
+    claims_raw = report_data.get("claims") or {}
+    rep_start = claims_raw.get("reporting_period_start")
+    rep_end = claims_raw.get("reporting_period_end")
+
+    excl_list: Optional[List[Dict[str, Any]]] = None
+    if qc_csv_path:
+        excl_list = [
+            {
+                "flags": [p.strip() for p in raw_k.split(";") if p.strip()] if raw_k != "unspecified" else ["unspecified"],
+                "count": cnt,
+            }
+            for raw_k, cnt in exact_counts.items()
+        ]
+
+    return {
+        "funnel": funnel,
+        "exclusion_counts_by_reason": excl_list,
+        "ingest_excluded_dates": ingest_excluded_dates,
+        "dry_season_qc_pass_per_year": dry_season_counts if qc_csv_path else None,
+        "time_series": time_series if qc_csv_path else None,
+        "reporting_period_start": rep_start,
+        "reporting_period_end": rep_end,
+        "exclusions_log": exclusions_log if qc_csv_path else None,
+    }
+
+
+def build_canopy_payload(
+    project_id: str,
+    output_dir: Union[str, Path] = "output",
+    data_dir: Union[str, Path] = "data/projects",
+) -> Optional[Dict[str, Any]]:
+    """Build structured canopy and biomass payload.
+
+    Args:
+        project_id: Project identifier.
+        output_dir: Output base directory.
+        data_dir: Data base directory.
+
+    Returns:
+        Structured canopy dictionary or None if project does not exist.
+    """
+    report_data = load_report_json(output_dir, project_id)
+    if not report_data:
+        return None
+
+    estimate_data = report_data.get("estimate") or {}
+    cb = estimate_data.get("canopy_biomass")
+
+    # If missing in report, look for estimate.json in data_dir
+    est_file = Path(data_dir) / project_id / "estimate.json"
+    est_file_data: Dict[str, Any] = {}
+    if est_file.exists():
+        try:
+            with open(est_file, "r", encoding="utf-8") as f:
+                est_file_data = json.load(f)
+                if not cb:
+                    cb = est_file_data.get("canopy_biomass") or est_file_data.get("satellite_estimate", {}).get("canopy_biomass")
+        except Exception:
+            pass
+
+    if not cb or not isinstance(cb, dict):
+        return None
+
+    canopy_payload = dict(cb)
+    sat_share = (
+        estimate_data.get("saturation_share_pct")
+        if estimate_data.get("saturation_share_pct") is not None
+        else est_file_data.get("saturation_share_pct")
+    )
+    canopy_payload["saturation_share_pct"] = sat_share
+
+    # Saturation counts
+    sat_px = (
+        estimate_data.get("saturation_pixel_count")
+        if estimate_data.get("saturation_pixel_count") is not None
+        else est_file_data.get("saturation_pixel_count", est_file_data.get("satellite_estimate", {}).get("saturation_pixel_count"))
+    )
+    sat_tot = (
+        estimate_data.get("saturation_total_count")
+        if estimate_data.get("saturation_total_count") is not None
+        else est_file_data.get("saturation_total_count", est_file_data.get("satellite_estimate", {}).get("saturation_total_count"))
+    )
+    canopy_payload["saturation_pixel_count"] = sat_px
+    canopy_payload["saturation_total_count"] = sat_tot
+
+    # Claimed canopy change pct from claims
+    claims_dict = report_data.get("claims") or {}
+    canopy_payload["claimed_canopy_change_pct"] = claims_dict.get("claimed_canopy_change_pct")
+
+    return canopy_payload
+
+
+def build_limitations_payload(
+    project_id: str,
+    output_dir: Union[str, Path] = "output",
+    data_dir: Union[str, Path] = "data/projects",
+) -> Optional[Dict[str, Any]]:
+    """Build structured methodology limitations and evidence provenance payload.
+
+    Args:
+        project_id: Project identifier.
+        output_dir: Output base directory.
+        data_dir: Data base directory.
+
+    Returns:
+        Structured limitations and provenance dictionary or None if project does not exist.
+    """
+    report_data = load_report_json(output_dir, project_id)
+    if not report_data:
+        return None
+
+    estimate_data = report_data.get("estimate") or {}
+    ext_rep = load_extraction_report_json(output_dir, project_id) or {}
+
+    # Stored limitations list (stored under confidence_reasons or limitations)
+    limitations_list = report_data.get("confidence_reasons")
+    if limitations_list is None:
+        limitations_list = report_data.get("limitations")
+
+    # Hashes from estimate_data or estimate.json
+    file_hashes = estimate_data.get("file_hashes")
+    est_file_data: Dict[str, Any] = {}
+    est_file = Path(data_dir) / project_id / "estimate.json"
+    if est_file.exists():
+        try:
+            with open(est_file, "r", encoding="utf-8") as f:
+                est_file_data = json.load(f)
+                if not file_hashes:
+                    file_hashes = est_file_data.get("file_hashes") or est_file_data.get("satellite_estimate", {}).get("file_hashes")
+        except Exception:
+            pass
+
+    extractor = ext_rep.get("extractor")
+    pdf_sha256 = ext_rep.get("pdf_sha256")
+    source_notes = ext_rep.get("source_notes")
+    imagery_source = None
+
+    pdf_sha256_document: Optional[str] = None
+    if pdf_sha256:
+        doc_stats = ext_rep.get("document_stats")
+        if isinstance(doc_stats, dict):
+            for doc_name, stats in doc_stats.items():
+                if isinstance(stats, dict) and stats.get("sha256") == pdf_sha256:
+                    pdf_sha256_document = doc_name
+                    break
+
+    # Imagery source if stored in provenance.json
+    imagery_source = None
+    prov_file = Path(data_dir) / project_id / "provenance.json"
+    if prov_file.exists():
+        try:
+            with open(prov_file, "r", encoding="utf-8") as pf:
+                prov_data = json.load(pf)
+                imagery_source = prov_data.get("imagery_source")
+        except Exception:
+            pass
+
+    # Hansen file names/hashes if stored
+    hansen = estimate_data.get("hansen_crosscheck") or est_file_data.get("satellite_estimate", {}).get("hansen_crosscheck") or {}
+    hansen_file_hashes = hansen.get("file_hashes")
+
+    # Config thresholds
+    grid_t = estimate_data.get("grid_thresholds") or est_file_data.get("grid_thresholds")
+    if isinstance(grid_t, dict):
+        grid_t = [float(k) for k in grid_t.keys()]
+    elif isinstance(grid_t, list):
+        grid_t = [float(x) for x in grid_t]
+
+    cfg_thresh = None
+    project_root = Path(__file__).resolve().parents[2]
+    cfg_file = project_root / "config.yaml"
+    if cfg_file.exists():
+        try:
+            import yaml
+            with open(cfg_file, "r", encoding="utf-8") as yf:
+                cfg = yaml.safe_load(yf)
+                if isinstance(cfg, dict):
+                    cfg_thresh = cfg.get("scoring", {}).get("thresholds")
+        except Exception:
+            pass
+
+    thresholds = None
+    if grid_t is not None or cfg_thresh is not None:
+        thresholds = {
+            "minor_discrepancy_pct": cfg_thresh.get("minor_discrepancy_pct") if isinstance(cfg_thresh, dict) else None,
+            "major_discrepancy_pct": cfg_thresh.get("major_discrepancy_pct") if isinstance(cfg_thresh, dict) else None,
+            "grid_thresholds": grid_t,
+        }
+
+    return {
+        "limitations": limitations_list,
+        "file_hashes": file_hashes,
+        "extractor": extractor,
+        "pdf_sha256": pdf_sha256,
+        "pdf_sha256_document": pdf_sha256_document,
+        "source_notes": source_notes,
+        "imagery_source": imagery_source,
+        "hansen_file_hashes": hansen_file_hashes,
+        "thresholds": thresholds,
+    }
+
+
 def build_project_payload(
     project_id: str,
     output_dir: Union[str, Path] = "output",
@@ -252,8 +604,8 @@ def build_project_payload(
         pass_s = int(qc_data["pass_scenes"])
         excl_s = int(qc_data["excluded_scenes"])
         stac_path = Path(data_dir) / project_id / "imagery" / "stac_items.json"
-        fetched_s = total_s
-        excl_ingest = 0
+        fetched_s: Optional[int] = None
+        excl_ingest: Optional[int] = None
         if stac_path.exists():
             try:
                 with open(stac_path, "r", encoding="utf-8") as sf:
@@ -523,6 +875,9 @@ def build_project_payload(
         "schedule_summary": schedule_summary,
         "file_hashes": file_hashes,
         "recorded_files_count": len(file_hashes),
+        "imagery": build_imagery_payload(project_id, output_dir, data_dir),
+        "canopy": build_canopy_payload(project_id, output_dir, data_dir),
+        "limitations": build_limitations_payload(project_id, output_dir, data_dir),
     }
 
     return payload
@@ -595,6 +950,48 @@ class CarbonVerifyHandler(BaseHTTPRequestHandler):
                 self._send_error_json(f"Project '{pid}' not found", HTTPStatus.NOT_FOUND)
             else:
                 self._send_json(payload)
+            return
+
+        # 2b. API: Imagery payload
+        m_img = re.match(r"^/api/project/([^/]+)/imagery$", path)
+        if m_img:
+            pid = m_img.group(1)
+            img_payload = build_imagery_payload(pid, self.output_dir, self.data_dir)
+            if img_payload is None:
+                if not load_report_json(self.output_dir, pid):
+                    self._send_error_json(f"Project '{pid}' not found", HTTPStatus.NOT_FOUND)
+                else:
+                    self._send_json(None)
+            else:
+                self._send_json(img_payload)
+            return
+
+        # 2c. API: Canopy payload
+        m_can = re.match(r"^/api/project/([^/]+)/canopy$", path)
+        if m_can:
+            pid = m_can.group(1)
+            can_payload = build_canopy_payload(pid, self.output_dir, self.data_dir)
+            if can_payload is None:
+                if not load_report_json(self.output_dir, pid):
+                    self._send_error_json(f"Project '{pid}' not found", HTTPStatus.NOT_FOUND)
+                else:
+                    self._send_json(None)
+            else:
+                self._send_json(can_payload)
+            return
+
+        # 2d. API: Limitations payload
+        m_lim = re.match(r"^/api/project/([^/]+)/limitations$", path)
+        if m_lim:
+            pid = m_lim.group(1)
+            lim_payload = build_limitations_payload(pid, self.output_dir, self.data_dir)
+            if lim_payload is None:
+                if not load_report_json(self.output_dir, pid):
+                    self._send_error_json(f"Project '{pid}' not found", HTTPStatus.NOT_FOUND)
+                else:
+                    self._send_json(None)
+            else:
+                self._send_json(lim_payload)
             return
 
         # 3. API: GeoJSON boundary & ring

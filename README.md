@@ -40,11 +40,11 @@ Launch the interactive viewer:
 streamlit run app/streamlit_app.py --server.address 127.0.0.1
 ```
 > **Notes:**
-> - The map's base tiles need an internet connection in the browser.
+> - The map renders CartoDB positron base tiles via Folium and needs an internet connection in the browser.
 > - The viewer only reads `output/<project>/` files (zero recomputation).
 
 ### Web UI
-`carbonverify serve` serves a read-only local app from output/<project>/ at 127.0.0.1:8765; Overview, Registry Claims and Planted Area Test are built, other planned pages are not built.
+`carbonverify serve` serves a read-only local app from output/<project>/ at 127.0.0.1:8765; six pages are built (Overview, Registry Claims, Planted Area Test, Imagery quality, Canopy and biomass, Limitations and provenance) and the Evidence map is not built in the web app (the Streamlit viewer has a map tab). Imagery source is not recorded by the pipeline and shows as not available.
 
 ## Repository Layout
 - `src/carbonverify/cli.py`: Command-line interface definitions and entry points (`extract`, `run`).
@@ -102,7 +102,7 @@ streamlit run app/streamlit_app.py --server.address 127.0.0.1
 The local scene cache (`data/projects/*/imagery/cache/`) and Hansen tiles are git-ignored. A full re-fetch may query newer catalog versions or slightly alter scenes/items over time, which would modify raw composite SHA-256 hashes. Pinned hashes in `report.json` refer specifically to the cached data used for reported results. Regeneration from scratch involves downloading and processing approximately 190 Sentinel-2 scenes (~1.4 GB total).
 
 ## Scope and Deviations
-Only project 2469 is built; imagery comes from AWS Earth Search, not Copernicus Data Space; NDVI thresholds were chosen, not calibrated; matches between planting-schedule cohorts and T = 0.70 areas are post hoc, not validation.
+Only project 2469 is built; imagery comes from AWS Earth Search, not Copernicus Data Space; NDVI thresholds were chosen, not calibrated; matches between planting-schedule cohorts and T = 0.70 areas are post hoc, not validation. The web app shows the monitoring report checksum only; the PDD checksum is stored in extraction_report.json.
 
 ## Methodology Limitations
 - See Section 6 of `output/2469/report.html` for complete methodological constraints.

@@ -8,6 +8,9 @@
     "overview": "Overview",
     "claims": "Registry Claims",
     "area": "Planted Area Test",
+    "imagery": "Imagery quality",
+    "canopy": "Canopy and biomass",
+    "limitations": "Limitations and provenance",
     "module_preview": "Module Preview"
   },
   "confidence_reason_titles": {
@@ -156,6 +159,132 @@
     "no_sensitivity": "Sensitivity data not available",
     "claim_line_prefix": "Claim ",
     "crossing_marker_template": "Crossing T* = {t}"
+  },
+  "imagery": {
+    "title": "Sentinel-2 Imagery Quality Control",
+    "subtitle": "Radiometric screening and multi-year time-series analysis.",
+    "funnel_title": "Scene Ingestion & Quality Funnel",
+    "funnel_steps": {
+      "fetched": "Fetched scenes",
+      "excluded_ingest": "Excluded at ingest",
+      "in_timeseries": "In time series",
+      "excluded_qc": "Excluded at QC",
+      "passed": "Passed screening"
+    },
+    "dry_season_title": "Dry-Season (Jun–Aug) Screening Summary",
+    "dry_season_desc": "Scenes passing quality control during dry-season observation windows:",
+    "year_col": "Year",
+    "pass_count_col": "Passed Scenes",
+    "reasons_title": "Exclusions by Quality Reason",
+    "reasons_code_col": "Reason Code",
+    "reasons_desc_col": "Screening Description",
+    "reasons_count_col": "Scene Count",
+    "reasons_total_label": "Total",
+    "reasons": {
+      "low_valid": "Valid pixel fraction below the QC minimum",
+      "common_mode_outlier": "Difference from temporal neighbors across both zones",
+      "bad_red": "Red band value below the QC minimum"
+    },
+    "chart_title": "NDVI Multi-Year Trajectory",
+    "chart_subtitle": "Zone median index values over time with screening status; the shaded band is the reporting period.",
+    "chart_legend": {
+      "project": "Project Zone NDVI",
+      "ring": "Reference Ring NDVI",
+      "passed": "Passed Screening",
+      "excluded": "Excluded Scene",
+      "reporting_period": "Reporting Period"
+    },
+    "chart_axes": {
+      "y_label": "NDVI",
+      "x_label": "Timeline"
+    },
+    "exclusions_log_title": "Screening Exclusion Log",
+    "exclusions_log_desc": "Record of scenes excluded during radiometric and quality-control evaluation:",
+    "log_cols": {
+      "date": "Date",
+      "scene_id": "Scene Identifier",
+      "reason": "Exclusion Flag"
+    },
+    "ingest_dates_title": "Scenes Excluded at Ingestion",
+    "ingest_dates_desc": "Dates filtered out during catalog querying and initial scene ingestion:",
+    "no_exclusions": "No scenes excluded."
+  },
+  "canopy": {
+    "title": "Canopy Cover & Biomass Proxy Trajectory",
+    "subtitle": "Multi-threshold canopy coverage extent, biomass proxy metrics, and reference ring context.",
+    "stats": {
+      "change_primary": "Canopy Change (Primary T)",
+      "change_range": "Canopy Change Range (All T)",
+      "biomass_change": "Biomass Proxy Change",
+      "saturation_share": "Of the {end_year} pixels at the highest NDVI threshold, {share}% are near saturation in raw NDVI"
+    },
+    "table_title": "Canopy Cover & Surface Share by Threshold",
+    "table_desc": "Surface extent and estate proportion across quantile-mapped thresholds and observation years:",
+    "threshold_col": "Threshold (T)",
+    "area_suffix": "ha",
+    "share_suffix": "share",
+    "chart_bar_title": "Canopy extent at T = {t}",
+    "chart_bar_subtitle": "Project area exceeding primary vegetation index threshold across observation years.",
+    "chart_line_title": "Biomass Proxy Metrics (Mean & P90)",
+    "chart_line_subtitle": "Estate-wide mean and 90th percentile vegetation index trajectory.",
+    "chart_legend": {
+      "mean_ndvi": "Mean QM NDVI",
+      "p90_ndvi": "P90 QM NDVI",
+      "primary_bar": "Canopy Area (ha)"
+    },
+    "reference_title": "Reference Ring Baseline Context",
+    "reference_label": "Reference ring raw median (context only, not subtracted)",
+    "reference_change": "Reference Ring Raw Median Change",
+    "notes_title": "Technical Disclosures & Scope Notes",
+    "pre_baseline_note": "Plantings made before the baseline year ({baseline_year}) cannot be separated from pre-existing high-NDVI area.",
+    "unscored_note": "Unscored: no canopy claim is present in the registry documents",
+    "notes": [
+      "NDVI saturates in dense vegetation and is only a proxy for biomass or canopy.",
+      "High-NDVI area is not designated as forest."
+    ],
+    "saturation_count_template": "{n} of {N}",
+    "saturation_note": "Of the {end_year} pixels at the highest NDVI threshold, {share}% are near saturation in raw NDVI"
+  },
+  "limitations": {
+    "title": "Methodology Limitations & Evidence Provenance",
+    "subtitle": "Institutional disclosures, algorithm constraints, and recorded cryptographic checksums.",
+    "caveats_title": "Confidence Caveats",
+    "caveats_desc": "Factors and quality disclosures recorded for this project:",
+    "method_limitations_title": "Method Limitations",
+    "method_limitations_desc": "Methodology boundaries, optical constraints, and verification limits:",
+    "method_limitations": [
+      "Satellite imagery can check observable claims such as planted area, planting and canopy change. It cannot check counterfactual baselines, so avoided-deforestation (REDD+) over-crediting claims are out of reach.",
+      "NDVI saturates in dense vegetation and is only a proxy for biomass or canopy.",
+      "NDVI thresholds were chosen, not calibrated against ground truth.",
+      "The area test depends on the natural forest allowance stated in the registry documents.",
+      "Quantile mapping assumes the reference ring behaves the same way from year to year.",
+      "Each year has only a few dry-season scenes, so uncertainty ranges reflect scene sampling only.",
+      "Catalog offset and baseline metadata can be unreliable, so the radiometric offset is detected from pixel values.",
+      "Hansen tree-cover loss is a 30 m indicator and includes plantation harvest; it is not a conclusion."
+    ],
+    "hashes_title": "Artifact Checksums & Cryptographic Hashes",
+    "hashes_desc": "Recorded SHA-256 integrity checksums for project inputs, composites, and spatial boundaries:",
+    "hashes_cols": {
+      "file": "Artifact File Name",
+      "hash": "SHA-256 Digest",
+      "action": "Actions"
+    },
+    "copy_btn": "Copy",
+    "copied_btn": "Copied",
+    "provenance_title": "Pipeline Parameters & Upstream Sources",
+    "extractor_label": "Claim Extraction Pipeline",
+    "pdf_sha_label": "Source PDF Checksum",
+    "pdf_sha_unrecorded_label": "Source PDF checksum (document not recorded)",
+    "imagery_source_label": "Satellite Imagery Source",
+    "thresholds_label": "Current configuration",
+    "threshold_minor": "Minor discrepancy threshold",
+    "threshold_major": "Major discrepancy threshold",
+    "grid_thresholds_label": "NDVI Threshold Grid",
+    "hansen_title": "Global Forest Change Reference Datasets",
+    "hansen_desc": "Hansen GFC 30m reference tiles and associated cryptographic hashes:",
+    "source_notes_title": "Extraction Notes & Inconsistencies",
+    "source_notes_desc": "Observations recorded during registry documentation extraction:",
+    "registry_pdf_notice": "Registry project documents (PDD and monitoring reports) are not stored in this repository; download them directly from the registry."
   },
   "units": {
     "ha": "ha",
