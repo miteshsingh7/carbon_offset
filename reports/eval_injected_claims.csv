@@ -1,0 +1,8 @@
+factor,claimed_ha,status,confidence,area_discrepancy_pct,shortfall_central_ha,shortfall_low_ha,detection_limit_pct,band_span_pct
+0.9,1170.0,CONSISTENT,LOW,0.0,-95.0,154.8,13.23,41.92
+1.0,1300.0,CONSISTENT,LOW,0.0,35.0,284.8,21.91,37.72
+1.1,1430.0,CONSISTENT,LOW,0.0,165.0,414.8,29.01,34.3
+1.25,1625.0,CONSISTENT,LOW,7.35,360.0,609.8,37.53,30.18
+1.3,1690.0,MINOR,LOW,10.91,425.0,674.8,39.93,29.02
+1.5,1950.0,MINOR,LOW,22.79,685.0,934.8,47.94,25.15
+2.0,2600.0,MAJOR,LOW,42.09,1335.0,1584.8,60.95,18.86
