@@ -1,6 +1,7 @@
 """Discrepancy scoring and confidence assessment for carbon-offset project claims."""
 
 from dataclasses import dataclass
+import json
 import logging
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
@@ -201,17 +202,43 @@ def score(
         )
 
         # 4. Ring non-stationarity
-        p5_19 = estimate.ring_p5_2019 if estimate.ring_p5_2019 is not None else 0.3937
-        p5_22_raw = estimate.ring_p5_2022_raw if estimate.ring_p5_2022_raw is not None else 0.2931
-        confidence_reasons.append(
-            f"Reference ring non-stationarity: raw ring p5 in 2019 vs 2022 is {p5_19:.4f} vs {p5_22_raw:.4f}"
-        )
+        p5_19 = estimate.ring_p5_2019
+        p5_22_raw = estimate.ring_p5_2022_raw
+        if (p5_19 is None or p5_22_raw is None) and claims and claims.project_id:
+            cand_ej = Path("data/projects") / str(claims.project_id) / "estimate.json"
+            if cand_ej.exists():
+                try:
+                    with open(cand_ej, "r", encoding="utf-8") as f:
+                        ej_d = json.load(f)
+                    if p5_19 is None and ej_d.get("ring_p5_2019") is not None:
+                        p5_19 = float(ej_d["ring_p5_2019"])
+                    if p5_22_raw is None and ej_d.get("ring_p5_2022_raw") is not None:
+                        p5_22_raw = float(ej_d["ring_p5_2022_raw"])
+                except Exception:
+                    pass
+
+        if p5_19 is not None and p5_22_raw is not None:
+            confidence_reasons.append(
+                f"Reference ring non-stationarity: raw ring p5 in 2019 vs 2022 is {p5_19:.4f} vs {p5_22_raw:.4f}"
+            )
 
         # 5. Dry-season QC-pass scenes per year
-        qc_scenes = estimate.dry_season_qc_scenes or {"2019": 8, "2020": 11, "2021": 8, "2022": 11}
-        confidence_reasons.append(
-            f"Dry-season QC-pass scenes per year read from qc_scenes.csv: {qc_scenes}"
-        )
+        qc_scenes = estimate.dry_season_qc_scenes
+        if qc_scenes is None and claims and claims.project_id:
+            cand_ej = Path("data/projects") / str(claims.project_id) / "estimate.json"
+            if cand_ej.exists():
+                try:
+                    with open(cand_ej, "r", encoding="utf-8") as f:
+                        ej_d = json.load(f)
+                    if ej_d.get("dry_season_qc_scenes"):
+                        qc_scenes = ej_d["dry_season_qc_scenes"]
+                except Exception:
+                    pass
+
+        if qc_scenes:
+            confidence_reasons.append(
+                f"Dry-season QC-pass scenes per year read from qc_scenes.csv: {qc_scenes}"
+            )
 
         # 6. Normalization sensitivity
         norm_sens = getattr(estimate, "normalization_sensitivity", None)

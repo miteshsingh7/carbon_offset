@@ -612,7 +612,18 @@ def plantation_area_estimate(
     )
     cohort_pairs = [(float(p[0]), float(p[1])) for p in raw_pairs]
 
-    sched_cfg = est_cfg.get("scheduled_plantings_ha", {})
+    proj_yaml_p = proj_p / "project.yaml"
+    sched_cfg = {}
+    if proj_yaml_p.exists():
+        try:
+            with open(proj_yaml_p, "r", encoding="utf-8") as f:
+                p_yaml = yaml.safe_load(f) or {}
+            sched_cfg = p_yaml.get("scheduled_plantings_ha") or {}
+        except Exception as exc:
+            logger.warning("Could not load %s: %s", proj_yaml_p, exc)
+    if not sched_cfg:
+        sched_cfg = est_cfg.get("scheduled_plantings_ha", {})
+
     sched_19_20 = (
         float(sched_cfg["scheduled_2019_2020"])
         if sched_cfg.get("scheduled_2019_2020") is not None

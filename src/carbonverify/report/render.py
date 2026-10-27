@@ -6,6 +6,7 @@ import logging
 from pathlib import Path
 import shutil
 from typing import Any, Dict, List, Optional, Tuple, Union
+import yaml
 
 from jinja2 import Template
 
@@ -865,7 +866,7 @@ REPORT_2469_TEMPLATE = r"""<!DOCTYPE html>
       </p>
       {% endif %}
       <p>
-        Raw composites carry a year effect (reference ring raw median per year: 2019: {% if raw_ring_medians.get('2019') is not none %}{{ "{:.4f}".format(raw_ring_medians.get('2019')) }}{% else %}not available{% endif %}, 2020: {% if raw_ring_medians.get('2020') is not none %}{{ "{:.4f}".format(raw_ring_medians.get('2020')) }}{% else %}not available{% endif %}, 2021: {% if raw_ring_medians.get('2021') is not none %}{{ "{:.4f}".format(raw_ring_medians.get('2021')) }}{% else %}not available{% endif %}, 2022: {% if raw_ring_medians.get('2022') is not none %}{{ "{:.4f}".format(raw_ring_medians.get('2022')) }}{% else %}not available{% endif %}), 2021 depressed and 2022 elevated versus 2019, so quantile mapping is the primary estimate and the raw band is shown as a sensitivity.
+        Raw composites carry a year effect (reference ring raw median per year: 2019: {% if raw_ring_medians.get('2019') is not none %}{{ "{:.4f}".format(raw_ring_medians.get('2019')) }}{% else %}not available{% endif %}, 2020: {% if raw_ring_medians.get('2020') is not none %}{{ "{:.4f}".format(raw_ring_medians.get('2020')) }}{% else %}not available{% endif %}, 2021: {% if raw_ring_medians.get('2021') is not none %}{{ "{:.4f}".format(raw_ring_medians.get('2021')) }}{% else %}not available{% endif %}, 2022: {% if raw_ring_medians.get('2022') is not none %}{{ "{:.4f}".format(raw_ring_medians.get('2022')) }}{% else %}not available{% endif %}){% set m19 = raw_ring_medians.get('2019') %}{% set m21 = raw_ring_medians.get('2021') %}{% set m22 = raw_ring_medians.get('2022') %}{% if m19 is not none and m21 is not none and m22 is not none %}{% set desc21 = 'depressed' if m21 < m19 else ('elevated' if m21 > m19 else 'stable') %}{% set desc22 = 'elevated' if m22 > m19 else ('depressed' if m22 < m19 else 'stable') %}, 2021 {{ desc21 }} and 2022 {{ desc22 }} versus 2019{% endif %}, so quantile mapping is the primary estimate and the raw band is shown as a sensitivity.
       </p>
       {% endif %}
 
@@ -941,19 +942,19 @@ REPORT_2469_TEMPLATE = r"""<!DOCTYPE html>
       </table>
 
       <p>
-        The Jun-Aug 2019 composite is not pre-planting for plantings made early in 2019, so the cohort total is a lower bound for 2019 plantings and a gap versus the schedule is not a shortfall. The 2020 planting ({{ "{:.0f}".format(scheduled_2020) }} ha) is inconclusive.
+        The Jun-Aug 2019 composite is not pre-planting for plantings made early in 2019, so the cohort total is a lower bound for 2019 plantings and a gap versus the schedule is not a shortfall.{% if scheduled_2020 is not none %} The 2020 planting ({{ "{:.0f}".format(scheduled_2020) }} ha) is inconclusive.{% endif %}
       </p>
-
+{% if scheduled_2019_2020 is not none or scheduled_2020 is not none %}
       <h3>Comparison with Operational Planting Records</h3>
       <p>
         Total lower bound range across all five threshold pairs is <strong>{{ "{:,.2f}".format(cohort_tot_range[0]) }} &ndash; {{ "{:,.2f}".format(cohort_tot_range[1]) }} ha</strong>
-        (compared against documented 2019+2020 scheduled plantings of {{ "{:,.1f}".format(scheduled_2019_2020) }} ha).
+        {% if scheduled_2019_2020 is not none %}(compared against documented 2019+2020 scheduled plantings of {{ "{:,.1f}".format(scheduled_2019_2020) }} ha).{% endif %}
         Cohort-2021 area range is <strong>{{ "{:,.2f}".format(cohort_21_range[0]) }} &ndash; {{ "{:,.2f}".format(cohort_21_range[1]) }} ha</strong>
-        (compared against documented 2020 scheduled plantings of {{ "{:,.1f}".format(scheduled_2020) }} ha, assuming roughly a one-year lag between planting and reaching high NDVI).
+        {% if scheduled_2020 is not none %}(compared against documented 2020 scheduled plantings of {{ "{:,.1f}".format(scheduled_2020) }} ha, assuming roughly a one-year lag between planting and reaching high NDVI).{% endif %}
       </p>
       <div class="source-note">
         <em>Note:</em> Close matches to the schedule are post hoc and are not validation.
-      </div>
+      </div>{% endif %}
 
       {% if b64_cohort_maps %}
       <div class="figure-container">
@@ -978,7 +979,7 @@ REPORT_2469_TEMPLATE = r"""<!DOCTYPE html>
           Decline set D (qm &gt;= 0.70 in some year and qm2022 &lt; 0.60; {{ "{:,.2f}".format(decline.decline_set_d.area_ha) }} ha): {{ decline.decline_set_d.components.count }} components; {{ "{:.2f}%".format(decline.decline_set_d.components.share_lt_1ha_pct) }} of the area is in components &lt; 1 ha, {{ "{:.2f}%".format(decline.decline_set_d.components.share_1_to_5ha_pct) }} in 1-5 ha, {{ "{:.2f}%".format(decline.decline_set_d.components.share_gt_5ha_pct) }} in one component &gt; 5 ha. That component is a compact {{ "{:,.2f}".format(decline.decline_set_d.components.largest_component_ha) }} ha block (component-mean raw NDVI {% if decline.decline_set_d.components.largest_component_raw_means.get('2020') is not none %}{{ "{:.2f}".format(decline.decline_set_d.components.largest_component_raw_means.get('2020')) }}{% else %}not available{% endif %} in 2020, {% if decline.decline_set_d.components.largest_component_raw_means.get('2021') is not none %}{{ "{:.2f}".format(decline.decline_set_d.components.largest_component_raw_means.get('2021')) }}{% else %}not available{% endif %} in 2021, {% if decline.decline_set_d.components.largest_component_raw_means.get('2022') is not none %}{{ "{:.2f}".format(decline.decline_set_d.components.largest_component_raw_means.get('2022')) }}{% else %}not available{% endif %} in 2022). Cause undetermined from NDVI alone; not scored.
         </li>
         <li>
-          2022 first-high set G22 (first year qm &gt;= 0.70 is 2022, T = 0.70; {{ "{:,.2f}".format(decline.g22_cohort.area_ha) }} ha): {{ "{:.2f}%".format(decline.g22_cohort.components.share_gt_5ha_pct) }} of the area is in four components &gt; 5 ha ({{ "{:,.2f}".format(decline.g22_cohort.components.components_gt_5ha[0]) }}, {{ "{:,.2f}".format(decline.g22_cohort.components.components_gt_5ha[1]) }}, {{ "{:,.2f}".format(decline.g22_cohort.components.components_gt_5ha[2]) }} and {{ "{:,.2f}".format(decline.g22_cohort.components.components_gt_5ha[3]) }} ha) and {{ "{:.2f}%".format(decline.g22_cohort.components.share_lt_1ha_pct) }} in components &lt; 1 ha. The largest component's mean raw NDVI is {% if decline.g22_cohort.components.largest_component_raw_means.get('2019') is not none and decline.g22_cohort.components.largest_component_raw_means.get('2020') is not none %}{{ "{:.2f}".format(decline.g22_cohort.components.largest_component_raw_means.get('2019')) }}-{{ "{:.2f}".format(decline.g22_cohort.components.largest_component_raw_means.get('2020')) }}{% else %}not available{% endif %} in 2019-2021 and {% if decline.g22_cohort.components.largest_component_raw_means.get('2022') is not none %}{{ "{:.2f}".format(decline.g22_cohort.components.largest_component_raw_means.get('2022')) }}{% else %}not available{% endif %} in 2022. Monitoring report Table 5 lists no plantings after {{ decline.latest_planting_year }}; cause not determined. If all of G22 were excluded, the T = 0.70 observed area would be {{ "{:,.2f}".format(decline.sensitivity_t70_excl_g22.observed_area_excl_g22_ha) }} ha ({{ "{:,.2f}".format(decline.sensitivity_t70_excl_g22.a_2022_ha) }} - {{ "{:,.2f}".format(decline.sensitivity_t70_excl_g22.g22_area_ha) }} - {% if natural_forest_ha is not none %}{{ "{:,.0f}".format(natural_forest_ha) }}{% else %}not available{% endif %}), still inside the reported band ({{ "{:,.2f}".format(claimed_area_ha - decline.sensitivity_t70_excl_g22.observed_area_excl_g22_ha) }} ha below the {{ "{:,.0f}".format(claimed_area_ha) }} ha claim, above the band's low end of {{ "{:,.2f}".format(band.low) }} ha).
+          2022 first-high set G22 (first year qm &gt;= 0.70 is 2022, T = 0.70; {{ "{:,.2f}".format(decline.g22_cohort.area_ha) }} ha): {{ "{:.2f}%".format(decline.g22_cohort.components.share_gt_5ha_pct) }} of the area is in {% set c_list = decline.g22_cohort.components.components_gt_5ha or [] %}{% set n_c = c_list | length %}{% set num_words = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten"} %}{% set c_word = num_words.get(n_c, n_c ~ "") %}{{ c_word }} component{% if n_c != 1 %}s{% endif %} &gt; 5 ha{% if n_c > 0 %} ({% for c in c_list %}{% if not loop.first %}{% if loop.last %} and {% else %}, {% endif %}{% endif %}{{ "{:,.2f}".format(c) }}{% endfor %} ha){% endif %} and {{ "{:.2f}%".format(decline.g22_cohort.components.share_lt_1ha_pct) }} in components &lt; 1 ha. The largest component's mean raw NDVI is {% if decline.g22_cohort.components.largest_component_raw_means.get('2019') is not none and decline.g22_cohort.components.largest_component_raw_means.get('2020') is not none %}{{ "{:.2f}".format(decline.g22_cohort.components.largest_component_raw_means.get('2019')) }}-{{ "{:.2f}".format(decline.g22_cohort.components.largest_component_raw_means.get('2020')) }}{% else %}not available{% endif %} in 2019-2021 and {% if decline.g22_cohort.components.largest_component_raw_means.get('2022') is not none %}{{ "{:.2f}".format(decline.g22_cohort.components.largest_component_raw_means.get('2022')) }}{% else %}not available{% endif %} in 2022. Monitoring report {% if table_ref %}{{ table_ref }} {% endif %}lists no plantings after {{ decline.latest_planting_year }}; cause not determined. If all of G22 were excluded, the T = 0.70 observed area would be {{ "{:,.2f}".format(decline.sensitivity_t70_excl_g22.observed_area_excl_g22_ha) }} ha ({{ "{:,.2f}".format(decline.sensitivity_t70_excl_g22.a_2022_ha) }} - {{ "{:,.2f}".format(decline.sensitivity_t70_excl_g22.g22_area_ha) }} - {% if natural_forest_ha is not none %}{{ "{:,.0f}".format(natural_forest_ha) }}{% else %}not available{% endif %}), still inside the reported band ({{ "{:,.2f}".format(claimed_area_ha - decline.sensitivity_t70_excl_g22.observed_area_excl_g22_ha) }} ha below the {{ "{:,.0f}".format(claimed_area_ha) }} ha claim, above the band's low end of {{ "{:,.2f}".format(band.low) }} ha).
         </li>
         <li>
           Strict (0.6, 0.7) 2022 cohort ({{ "{:,.2f}".format(decline.strict_2022_cohort.area_ha) }} ha): {{ "{:.0f}%".format(decline.strict_2022_cohort.share_lt_1ha_pct) }} of the area is in components &lt; 1 ha; pattern consistent with noise; cause not determined.
@@ -1055,9 +1056,9 @@ REPORT_2469_TEMPLATE = r"""<!DOCTYPE html>
         <li>Satellites verify observable claims (area, planting, canopy), not counterfactual baselines, so avoided-deforestation (REDD+) over-crediting claims are out of reach.</li>
         <li>NDVI saturates in dense/high-biomass forest and is only a proxy for biomass; upper area thresholds (&gt;= {{ "{:.2f}".format(upper_area_threshold) }}) sit near saturation for the 2022 project pixels ({{ "{:.2f}%".format(saturation_share_pct) }} have raw NDVI &gt;= {{ "{:.2f}".format(saturation_raw_threshold) }}).</li>
         <li>Strata have no polygons, so spatial verification is plantation mapping inside the estate, not per-stratum checks.</li>
-        <li>The 2018 plantings (and some early-2019 plantings) predate or overlap the Jun-Aug 2019 baseline and cannot be separated from the {% if natural_forest_ha is not none %}{{ "{:.0f}".format(natural_forest_ha) }}{% else %}not available{% endif %} ha natural forest; the Sentinel-2 L2A record starts about Dec 2018. The 2020 block is the best before/after test but is inconclusive here ({{ "{:.2f}".format(cohort_21_range[0]) }}-{{ "{:.2f}".format(cohort_21_range[1]) }} ha strict vs {{ "{:.0f}".format(scheduled_2020) }} ha scheduled).</li>
+        <li>The 2018 plantings (and some early-2019 plantings) predate or overlap the Jun-Aug 2019 baseline and cannot be separated from the {% if natural_forest_ha is not none %}{{ "{:.0f}".format(natural_forest_ha) }}{% else %}not available{% endif %} ha natural forest; the Sentinel-2 L2A record starts about Dec 2018.{% if scheduled_2020 is not none %} The 2020 block is the best before/after test but is inconclusive here ({{ "{:.2f}".format(cohort_21_range[0]) }}-{{ "{:.2f}".format(cohort_21_range[1]) }} ha strict vs {{ "{:.0f}".format(scheduled_2020) }} ha scheduled).{% endif %}</li>
         <li>The area test depends on a registry-derived forest allowance ({% if natural_forest_ha is not none %}{{ "{:.0f}".format(natural_forest_ha) }}{% else %}not available{% endif %} ha, {{ natural_forest_doc }} p.{{ natural_forest_page }}) and on NDVI thresholds; the band is {{ "{:.2f}%".format(band_span_pct) }} of the claim, giving a detection limit of {{ "{:.2f}%".format(detection_limit_pct_2d) }}. Thresholds were chosen, not calibrated.</li>
-        <li>Quantile mapping assumes the ring's distribution is stationary apart from atmosphere/phenology; ring land use changed in 2022 (raw ring p5 {{ "{:.4f}".format(ring_p5_2019) }} in 2019 vs {{ "{:.4f}".format(ring_p5_2022_raw) }} in 2022).</li>
+        {% if ring_p5_2019 is not none and ring_p5_2022_raw is not none and (ring_p5_2019 - ring_p5_2022_raw) > 0.05 %}<li>Quantile mapping assumes the ring's distribution is stationary apart from atmosphere/phenology; ring land use changed in 2022 (raw ring p5 {{ "{:.4f}".format(ring_p5_2019) }} in 2019 vs {{ "{:.4f}".format(ring_p5_2022_raw) }} in 2022).</li>{% endif %}
         <li>Only {{ dry_season_min }}-{{ dry_season_max }} dry-season scenes per year.</li>
         <li>STAC offset/baseline metadata were unreliable for this tile; the offset is detected from DNs (red p1 rule), with a small number of ambiguous scenes excluded.</li>
         <li>Documented over-crediting cases are contested by Verra, so the flagging-precision sample is small and must be reported honestly.</li>
@@ -1151,8 +1152,26 @@ def _load_2469_context(
     cohorts_dict = cohort_bd.get("cohorts") or {}
     cohort_tot_range = cohort_bd.get("cohort_lower_bound_total_range_ha") or [0.0, 0.0]
     cohort_21_range = cohort_bd.get("cohort_2021_lower_bound_range_ha") or [0.0, 0.0]
-    sched_19_20 = float(cohort_bd.get("scheduled_2019_2020_ha") or 0.0)
-    sched_20 = float(cohort_bd.get("scheduled_2020_ha") or 0.0)
+    s19_20_raw = cohort_bd.get("scheduled_2019_2020_ha")
+    sched_19_20: Optional[float] = float(s19_20_raw) if s19_20_raw is not None else None
+    s20_raw = cohort_bd.get("scheduled_2020_ha")
+    sched_20: Optional[float] = float(s20_raw) if s20_raw is not None else None
+
+    # Project-level config (project.yaml)
+    table_ref: Optional[str] = None
+    pyaml_p = proj_dir / "project.yaml"
+    if pyaml_p.exists():
+        try:
+            with open(pyaml_p, "r", encoding="utf-8") as f:
+                pydata = yaml.safe_load(f) or {}
+            sp = pydata.get("scheduled_plantings_ha", {})
+            if sched_19_20 is None and sp.get("scheduled_2019_2020") is not None:
+                sched_19_20 = float(sp["scheduled_2019_2020"])
+            if sched_20 is None and sp.get("scheduled_2020") is not None:
+                sched_20 = float(sp["scheduled_2020"])
+            table_ref = pydata.get("table_ref") or sp.get("table_ref")
+        except Exception:
+            pass
 
     # 4. Normalization sensitivity
     norm_sens = (
@@ -1518,8 +1537,10 @@ def _load_2469_context(
         .get("confidence", {})
         .get("raw_ndvi_saturation_threshold", 0.85)
     )
-    ring_p5_19 = float(est_data.get("ring_p5_2019") or est.ring_p5_2019 or 0.0)
-    ring_p5_22_raw = float(est_data.get("ring_p5_2022_raw") or est.ring_p5_2022_raw or 0.0)
+    val_p5_19 = est_data.get("ring_p5_2019") if est_data.get("ring_p5_2019") is not None else est.ring_p5_2019
+    ring_p5_19: Optional[float] = float(val_p5_19) if val_p5_19 is not None else None
+    val_p5_22 = est_data.get("ring_p5_2022_raw") if est_data.get("ring_p5_2022_raw") is not None else est.ring_p5_2022_raw
+    ring_p5_22_raw: Optional[float] = float(val_p5_22) if val_p5_22 is not None else None
 
     dry_qc_by_year = est_data.get("dry_season_qc_scenes") or est.dry_season_qc_scenes or {}
     dry_total: Union[int, str] = sum(dry_qc_by_year.values()) if dry_qc_by_year else "not available"
@@ -1601,6 +1622,7 @@ def _load_2469_context(
         "cohort_21_range": cohort_21_range,
         "scheduled_2019_2020": sched_19_20,
         "scheduled_2020": sched_20,
+        "table_ref": table_ref,
         "b64_cohort_maps": b64_cohort_maps,
         "b64_timeseries": b64_timeseries,
         "b64_decline_map": b64_decline_map,

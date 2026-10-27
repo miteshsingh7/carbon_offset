@@ -71,6 +71,77 @@ def _extract_mgrs_tile(item: Any) -> Optional[str]:
     return None
 
 
+def _extract_item_proj_info(item: Any) -> Tuple[List[float], int]:
+    """Extract red-band proj:transform and proj:epsg from a STAC item or dict representation."""
+    red_asset = None
+    if hasattr(item, "assets") and isinstance(item.assets, dict):
+        red_asset = item.assets.get("red")
+    elif isinstance(item, dict):
+        red_asset = item.get("assets", {}).get("red")
+
+    transform = None
+    epsg = None
+
+    if red_asset is not None:
+        if hasattr(red_asset, "extra_fields") and isinstance(red_asset.extra_fields, dict):
+            transform = red_asset.extra_fields.get("proj:transform")
+            epsg = red_asset.extra_fields.get("proj:epsg")
+        elif isinstance(red_asset, dict):
+            transform = red_asset.get("proj:transform")
+            epsg = red_asset.get("proj:epsg")
+
+    if epsg is None:
+        if hasattr(item, "properties") and isinstance(item.properties, dict):
+            epsg = item.properties.get("proj:epsg")
+        elif isinstance(item, dict):
+            epsg = item.get("properties", {}).get("proj:epsg")
+
+    if transform is None:
+        if hasattr(item, "properties") and isinstance(item.properties, dict):
+            transform = item.properties.get("proj:transform")
+        elif isinstance(item, dict):
+            transform = item.get("properties", {}).get("proj:transform")
+
+    item_id = getattr(item, "id", None) or (item.get("id") if isinstance(item, dict) else str(item))
+    if not transform or len(transform) != 6:
+        raise ValueError(f"STAC item {item_id} missing valid red-band proj:transform: {transform}")
+    if not epsg:
+        raise ValueError(f"STAC item {item_id} missing valid proj:epsg: {epsg}")
+
+    return [float(x) for x in transform], int(epsg)
+
+
+def validate_single_tile_transform(items: List[Any]) -> rasterio.Affine:
+    """Validate that all items share identical red-band proj:transform and proj:epsg.
+
+    Args:
+        items: List of STAC items or item dictionaries.
+
+    Returns:
+        rasterio.Affine transform for the single MGRS tile.
+
+    Raises:
+        ValueError: If items list is empty or items span multiple tiles (different transform or EPSG).
+    """
+    if not items:
+        raise ValueError("Cannot derive tile transform: empty STAC items list.")
+
+    first_transform, first_epsg = _extract_item_proj_info(items[0])
+
+    for it in items[1:]:
+        t, epsg = _extract_item_proj_info(it)
+        if t != first_transform or epsg != first_epsg:
+            item_id = getattr(it, "id", None) or (it.get("id") if isinstance(it, dict) else str(it))
+            ref_id = getattr(items[0], "id", None) or (items[0].get("id") if isinstance(items[0], dict) else str(items[0]))
+            raise ValueError(
+                f"Single-tile guard failure: STAC items do not share the same tile transform or EPSG. "
+                f"Reference item {ref_id} has transform={first_transform}, epsg={first_epsg}; "
+                f"item {item_id} has transform={t}, epsg={epsg}."
+            )
+
+    return rasterio.Affine(*first_transform)
+
+
 def search_stac_items(
     bbox: Tuple[float, float, float, float],
     start_date: str = "2019-01-01",
@@ -452,8 +523,8 @@ def execute_imagery_verification(
     combined_geom = proj_utm.union(ring_utm)
     minx, miny, maxx, maxy = combined_geom.bounds
 
-    # MGRS 10m grid origin and transform
-    cog_transform = rasterio.Affine(10.0, 0.0, 499980.0, 0.0, -10.0, 7400020.0)
+    # MGRS 10m grid origin and transform validated from STAC items (single-tile guard)
+    cog_transform = validate_single_tile_transform(items)
     raw_win = from_bounds(minx, miny, maxx, maxy, cog_transform)
     col_off, row_off = int(raw_win.col_off), int(raw_win.row_off)
     width, height = int(raw_win.width) + 2, int(raw_win.height) + 2
@@ -537,7 +608,10 @@ def execute_imagery_verification(
     return report
 
 
-def recompute_timeseries_from_cache(project_dir: Path) -> Path:
+def recompute_timeseries_from_cache(
+    project_dir: Path,
+    items: Optional[List[Any]] = None,
+) -> Path:
     """Recompute timeseries.csv and seasonal composites strictly from cached scenes.
 
     Uses data-driven BOA offset detector and excludes ambiguous scenes from timeseries.
@@ -566,7 +640,9 @@ def recompute_timeseries_from_cache(project_dir: Path) -> Path:
     combined_geom = proj_utm.union(ring_utm)
     minx, miny, maxx, maxy = combined_geom.bounds
 
-    cog_transform = rasterio.Affine(10.0, 0.0, 499980.0, 0.0, -10.0, 7400020.0)
+    if items is None:
+        items = search_stac_items(combined_bbox)
+    cog_transform = validate_single_tile_transform(items)
     raw_win = from_bounds(minx, miny, maxx, maxy, cog_transform)
     col_off, row_off = int(raw_win.col_off), int(raw_win.row_off)
     width, height = int(raw_win.width) + 2, int(raw_win.height) + 2
