@@ -1,0 +1,16 @@
+polygon_filter:
+  attribute: "Año"
+  values:
+    - "2019"
+    - "2020"
+    - "2021"
+exclusion: true
+claims_override:
+  - field: "claimed_area_ha"
+    value: 2370.5
+    page: 3
+    quote: "Of this total area, 2,370.5 ha are subject to monitoring, and 1,047 ha only for validation as plantations were too young for monitoring."
+  - field: "natural_forest_ha"
+    value: 0.0
+    page: null
+    quote: null

@@ -680,9 +680,11 @@ def _build_project_claims(
     source_pages: Dict[str, int] = {}
     accepted: Dict[str, Any] = {}
     for field, det in field_details.items():
-        if det.status == "accepted" and det.page is not None:
-            source_pages[field] = det.page
-            accepted[field] = det.value
+        if det.status == "accepted":
+            if det.value is not None:
+                accepted[field] = det.value
+            if det.page is not None:
+                source_pages[field] = det.page
 
     boundary = _resolve_boundary_path(
         search_root if search_root.is_dir() else search_root.parent
@@ -734,10 +736,21 @@ def _build_and_save_report(
     out_dir: Optional[Union[str, Path]],
     sched_data: Optional[Dict[str, Any]] = None,
     source_notes: Optional[List[str]] = None,
+    manual_overrides: Optional[Dict[str, Any]] = None,
+    original_extracted_fields: Optional[Dict[str, Any]] = None,
 ) -> None:
     """Construct and save ExtractionReport model to disk."""
     primary_sha256 = next(iter(doc_sha_map.values()), None)
     sched = sched_data or {}
+    debug_payload: Dict[str, Any] = {
+        "top_candidates": debug_top_cands,
+        "keyword_pages": kw_pages,
+    }
+    if manual_overrides:
+        debug_payload["manual_overrides"] = manual_overrides
+    if original_extracted_fields:
+        debug_payload["original_extracted_fields"] = original_extracted_fields
+
     report = ExtractionReport(
         document_path=str(path),
         fields=field_details,
@@ -753,7 +766,7 @@ def _build_and_save_report(
         stated_total_ha=sched.get("stated_total_ha"),
         check=sched.get("check"),
         source_notes=source_notes or [],
-        debug={"top_candidates": debug_top_cands, "keyword_pages": kw_pages},
+        debug=debug_payload,
     )
     _write_extraction_report(report, path, out_dir)
 
@@ -780,11 +793,68 @@ def _orchestrate_pdf_extraction(
             "while p.54 carbon calculation table lists 68,494 tCO2e (1 tCO2e source inconsistency)."
         )
 
+    # Apply manual claims_override from project.yaml if present
+    proj_dir = path if path.is_dir() else path.parent
+    proj_yaml_path = proj_dir / "project.yaml"
+    if not proj_yaml_path.exists() and proj_dir.parent.exists():
+        cand = proj_dir.parent / "project.yaml"
+        if cand.exists():
+            proj_yaml_path = cand
+    proj_yaml = _read_yaml_safely(proj_yaml_path) or {}
+    overrides = proj_yaml.get("claims_override", [])
+    if overrides and isinstance(overrides, list):
+        orig_fields_copy: Dict[str, Any] = {}
+        overrides_debug: Dict[str, Any] = {}
+        for item in overrides:
+            if not isinstance(item, dict):
+                continue
+            field = item.get("field")
+            if not field:
+                continue
+            orig_det = fields.get(field)
+            if orig_det is not None:
+                orig_fields_copy[field] = orig_det.model_dump()
+                orig_raw = str(orig_det.value) if orig_det.value is not None else orig_det.raw_value
+            else:
+                orig_raw = None
+
+            val = item.get("value")
+            pg = item.get("page")
+            qt = item.get("quote")
+
+            fields[field] = FieldExtractionDetail(
+                value=val,
+                raw_value=orig_raw if orig_raw is not None else (str(val) if val is not None else None),
+                page=pg,
+                evidence_quote=qt,
+                status="accepted",
+                reason="manual_override",
+                source_doc="manual_override",
+                score=100.0,
+                winner_reason="manual_override",
+            )
+            overrides_debug[field] = {
+                "extractor": "manual_override",
+                "value": val,
+                "page": pg,
+                "quote": qt,
+                "original_value": orig_det.value if orig_det else None,
+                "original_raw_value": orig_raw,
+            }
+        extractor = "manual_override"
+        top_cands["manual_overrides"] = overrides_debug
+        top_cands["original_extracted_fields"] = orig_fields_copy
+    else:
+        overrides_debug = None
+        orig_fields_copy = None
+
     claims = _build_project_claims(fields, path, sched_data)
     _build_and_save_report(
         path, pdf_files, fields, extractor, doc_sha_map,
         doc_stats, consistency, top_cands, kw_pages, out_dir,
         sched_data=sched_data, source_notes=source_notes,
+        manual_overrides=overrides_debug,
+        original_extracted_fields=orig_fields_copy,
     )
     logger.info(
         "Claim extraction completed (%s): %d accepted, %d rejected, %d missing",
